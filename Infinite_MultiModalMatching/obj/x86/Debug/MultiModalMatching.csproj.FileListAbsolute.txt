@@ -16,6 +16,6 @@ C:\Users\Public\Documents\0.1.0.9.r25 API\tutorials\Windows\C#\Serial\10point_Mu
 C:\Users\Public\Documents\0.1.0.9.r25 API\tutorials\Windows\C#\Serial\Infinite_MultiModalMatching\obj\x86\Debug\DiscoverController.exe
 C:\Users\Public\Documents\0.1.0.9.r25 API\tutorials\Windows\C#\Serial\Infinite_MultiModalMatching\obj\x86\Debug\DiscoverController.pdb
 C:\Users\Public\Documents\0.1.0.9.r25 API\tutorials\Windows\C#\Serial\Infinite_MultiModalMatching\obj\x86\Debug\MultiModalMatching.csprojResolveAssemblyReference.cache
-C:\Users\Public\Documents\0.1.0.9.r25 API\tutorials\Windows\C#\Serial\Infinite_MultiModalMatching\obj\x86\Debug\MultiModalMatching.MultiModalMatchingForm.resources
-C:\Users\Public\Documents\0.1.0.9.r25 API\tutorials\Windows\C#\Serial\Infinite_MultiModalMatching\obj\x86\Debug\MultiModalMatching.Properties.Resources.resources
 C:\Users\Public\Documents\0.1.0.9.r25 API\tutorials\Windows\C#\Serial\Infinite_MultiModalMatching\obj\x86\Debug\MultiModalMatching.csproj.GenerateResource.Cache
+C:\Users\Public\Documents\0.1.0.9.r25 API\tutorials\Windows\C#\Serial\Infinite_MultiModalMatching\obj\x86\Debug\InfinitePrecisionMatching.InfinitePrecisionMatchingForm.resources
+C:\Users\Public\Documents\0.1.0.9.r25 API\tutorials\Windows\C#\Serial\Infinite_MultiModalMatching\obj\x86\Debug\InfinitePrecisionMatching.Properties.Resources.resources

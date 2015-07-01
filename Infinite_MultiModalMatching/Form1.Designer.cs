@@ -1,6 +1,6 @@
-﻿namespace MultiModalMatching
+﻿namespace InfinitePrecisionMatching
 {
-    partial class MultiModalMatchingForm
+    partial class InfinitePrecisionMatchingForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultiModalMatchingForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InfinitePrecisionMatchingForm));
             this.MatchingTab = new System.Windows.Forms.TabPage();
             this.FrequencyLabel = new System.Windows.Forms.Label();
             this.GainLabel = new System.Windows.Forms.Label();
@@ -61,13 +61,18 @@
             this.StartButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label3 = new System.Windows.Forms.Label();
-            this.PracticePanel = new System.Windows.Forms.Panel();
-            this.ImgPractice = new System.Windows.Forms.PictureBox();
-            this.TactorImgPractice = new System.Windows.Forms.PictureBox();
-            this.TrackBarPractice = new System.Windows.Forms.TrackBar();
-            this.PulseTactorButtonPractice = new System.Windows.Forms.Button();
             this.LetsGetStartedButton = new System.Windows.Forms.Button();
+            this.PracticePanel = new System.Windows.Forms.Panel();
+            this.TactorModePracticeRadio = new System.Windows.Forms.RadioButton();
+            this.ColorModePracticeRadio = new System.Windows.Forms.RadioButton();
+            this.InstFrequencyLabel = new System.Windows.Forms.Label();
+            this.InstGainLabel = new System.Windows.Forms.Label();
+            this.ImgIntensityPractice = new System.Windows.Forms.Label();
+            this.PracticeImage = new System.Windows.Forms.PictureBox();
+            this.TactorImgPractice = new System.Windows.Forms.PictureBox();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.PulseTactorPracticeButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.MatchingTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -76,9 +81,9 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.PracticePanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ImgPractice)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PracticeImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TactorImgPractice)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackBarPractice)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             this.SuspendLayout();
             // 
             // MatchingTab
@@ -113,7 +118,6 @@
             this.FrequencyLabel.Size = new System.Drawing.Size(63, 13);
             this.FrequencyLabel.TabIndex = 42;
             this.FrequencyLabel.Text = "Frequency: ";
-            this.FrequencyLabel.Click += new System.EventHandler(this.label9_Click);
             // 
             // GainLabel
             // 
@@ -417,35 +421,92 @@
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Instructions";
             // 
-            // label3
+            // LetsGetStartedButton
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(26, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(803, 104);
-            this.label3.TabIndex = 0;
-            this.label3.Text = resources.GetString("label3.Text");
+            this.LetsGetStartedButton.Location = new System.Drawing.Point(391, 491);
+            this.LetsGetStartedButton.Name = "LetsGetStartedButton";
+            this.LetsGetStartedButton.Size = new System.Drawing.Size(150, 51);
+            this.LetsGetStartedButton.TabIndex = 2;
+            this.LetsGetStartedButton.Text = "Let\'s Get Started!";
+            this.LetsGetStartedButton.UseVisualStyleBackColor = true;
+            this.LetsGetStartedButton.Click += new System.EventHandler(this.LetsGetStartedButton_Click);
             // 
             // PracticePanel
             // 
-            this.PracticePanel.Controls.Add(this.ImgPractice);
+            this.PracticePanel.Controls.Add(this.TactorModePracticeRadio);
+            this.PracticePanel.Controls.Add(this.ColorModePracticeRadio);
+            this.PracticePanel.Controls.Add(this.InstFrequencyLabel);
+            this.PracticePanel.Controls.Add(this.InstGainLabel);
+            this.PracticePanel.Controls.Add(this.ImgIntensityPractice);
+            this.PracticePanel.Controls.Add(this.PracticeImage);
             this.PracticePanel.Controls.Add(this.TactorImgPractice);
-            this.PracticePanel.Controls.Add(this.TrackBarPractice);
-            this.PracticePanel.Controls.Add(this.PulseTactorButtonPractice);
+            this.PracticePanel.Controls.Add(this.trackBar2);
+            this.PracticePanel.Controls.Add(this.PulseTactorPracticeButton);
             this.PracticePanel.Location = new System.Drawing.Point(29, 142);
             this.PracticePanel.Name = "PracticePanel";
             this.PracticePanel.Size = new System.Drawing.Size(860, 319);
             this.PracticePanel.TabIndex = 1;
             // 
-            // ImgPractice
+            // TactorModePracticeRadio
             // 
-            this.ImgPractice.BackColor = System.Drawing.Color.Black;
-            this.ImgPractice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ImgPractice.Location = new System.Drawing.Point(224, 34);
-            this.ImgPractice.Name = "ImgPractice";
-            this.ImgPractice.Size = new System.Drawing.Size(148, 134);
-            this.ImgPractice.TabIndex = 35;
-            this.ImgPractice.TabStop = false;
+            this.TactorModePracticeRadio.AutoSize = true;
+            this.TactorModePracticeRadio.Location = new System.Drawing.Point(533, 222);
+            this.TactorModePracticeRadio.Name = "TactorModePracticeRadio";
+            this.TactorModePracticeRadio.Size = new System.Drawing.Size(86, 17);
+            this.TactorModePracticeRadio.TabIndex = 39;
+            this.TactorModePracticeRadio.TabStop = true;
+            this.TactorModePracticeRadio.Text = "Tactor Mode";
+            this.TactorModePracticeRadio.UseVisualStyleBackColor = true;
+            this.TactorModePracticeRadio.Click += new System.EventHandler(this.TactorModePracticeRadio_Click);
+            // 
+            // ColorModePracticeRadio
+            // 
+            this.ColorModePracticeRadio.AutoSize = true;
+            this.ColorModePracticeRadio.Location = new System.Drawing.Point(273, 216);
+            this.ColorModePracticeRadio.Name = "ColorModePracticeRadio";
+            this.ColorModePracticeRadio.Size = new System.Drawing.Size(79, 17);
+            this.ColorModePracticeRadio.TabIndex = 38;
+            this.ColorModePracticeRadio.TabStop = true;
+            this.ColorModePracticeRadio.Text = "Color Mode";
+            this.ColorModePracticeRadio.UseVisualStyleBackColor = true;
+            this.ColorModePracticeRadio.Click += new System.EventHandler(this.ColorModePracticeRadio_Click);
+            // 
+            // InstFrequencyLabel
+            // 
+            this.InstFrequencyLabel.AutoSize = true;
+            this.InstFrequencyLabel.Location = new System.Drawing.Point(504, 287);
+            this.InstFrequencyLabel.Name = "InstFrequencyLabel";
+            this.InstFrequencyLabel.Size = new System.Drawing.Size(60, 13);
+            this.InstFrequencyLabel.TabIndex = 37;
+            this.InstFrequencyLabel.Text = "Frequency:";
+            // 
+            // InstGainLabel
+            // 
+            this.InstGainLabel.AutoSize = true;
+            this.InstGainLabel.Location = new System.Drawing.Point(504, 271);
+            this.InstGainLabel.Name = "InstGainLabel";
+            this.InstGainLabel.Size = new System.Drawing.Size(32, 13);
+            this.InstGainLabel.TabIndex = 36;
+            this.InstGainLabel.Text = "Gain:";
+            // 
+            // ImgIntensityPractice
+            // 
+            this.ImgIntensityPractice.AutoSize = true;
+            this.ImgIntensityPractice.Location = new System.Drawing.Point(221, 271);
+            this.ImgIntensityPractice.Name = "ImgIntensityPractice";
+            this.ImgIntensityPractice.Size = new System.Drawing.Size(108, 13);
+            this.ImgIntensityPractice.TabIndex = 3;
+            this.ImgIntensityPractice.Text = "Image Color Intensity:";
+            // 
+            // PracticeImage
+            // 
+            this.PracticeImage.BackColor = System.Drawing.Color.Black;
+            this.PracticeImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PracticeImage.Location = new System.Drawing.Point(224, 34);
+            this.PracticeImage.Name = "PracticeImage";
+            this.PracticeImage.Size = new System.Drawing.Size(148, 134);
+            this.PracticeImage.TabIndex = 35;
+            this.PracticeImage.TabStop = false;
             // 
             // TactorImgPractice
             // 
@@ -458,41 +519,43 @@
             this.TactorImgPractice.TabIndex = 34;
             this.TactorImgPractice.TabStop = false;
             // 
-            // TrackBarPractice
+            // trackBar2
             // 
-            this.TrackBarPractice.LargeChange = 1;
-            this.TrackBarPractice.Location = new System.Drawing.Point(36, 239);
-            this.TrackBarPractice.Maximum = 10000;
-            this.TrackBarPractice.Name = "TrackBarPractice";
-            this.TrackBarPractice.Size = new System.Drawing.Size(806, 45);
-            this.TrackBarPractice.TabIndex = 33;
+            this.trackBar2.LargeChange = 1;
+            this.trackBar2.Location = new System.Drawing.Point(3, 239);
+            this.trackBar2.Maximum = 10000;
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.Size = new System.Drawing.Size(806, 45);
+            this.trackBar2.TabIndex = 33;
+            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
             // 
-            // PulseTactorButtonPractice
+            // PulseTactorPracticeButton
             // 
-            this.PulseTactorButtonPractice.Enabled = false;
-            this.PulseTactorButtonPractice.Location = new System.Drawing.Point(523, 187);
-            this.PulseTactorButtonPractice.Name = "PulseTactorButtonPractice";
-            this.PulseTactorButtonPractice.Size = new System.Drawing.Size(89, 29);
-            this.PulseTactorButtonPractice.TabIndex = 32;
-            this.PulseTactorButtonPractice.Text = "Pulse Tactor";
-            this.PulseTactorButtonPractice.UseVisualStyleBackColor = true;
+            this.PulseTactorPracticeButton.Enabled = false;
+            this.PulseTactorPracticeButton.Location = new System.Drawing.Point(523, 187);
+            this.PulseTactorPracticeButton.Name = "PulseTactorPracticeButton";
+            this.PulseTactorPracticeButton.Size = new System.Drawing.Size(89, 29);
+            this.PulseTactorPracticeButton.TabIndex = 32;
+            this.PulseTactorPracticeButton.Text = "Pulse Tactor";
+            this.PulseTactorPracticeButton.UseVisualStyleBackColor = true;
+            this.PulseTactorPracticeButton.Click += new System.EventHandler(this.PulseTactorPracticeButton_Click);
             // 
-            // LetsGetStartedButton
+            // label3
             // 
-            this.LetsGetStartedButton.Location = new System.Drawing.Point(391, 491);
-            this.LetsGetStartedButton.Name = "LetsGetStartedButton";
-            this.LetsGetStartedButton.Size = new System.Drawing.Size(150, 51);
-            this.LetsGetStartedButton.TabIndex = 2;
-            this.LetsGetStartedButton.Text = "Lets Get Started!";
-            this.LetsGetStartedButton.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(26, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(803, 117);
+            this.label3.TabIndex = 0;
+            this.label3.Text = resources.GetString("label3.Text");
             // 
-            // MultiModalMatchingForm
+            // InfinitePrecisionMatchingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(962, 602);
             this.Controls.Add(this.tabControl1);
-            this.Name = "MultiModalMatchingForm";
+            this.Name = "InfinitePrecisionMatchingForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MultiModalMatchingForm_FormClosed);
             this.MatchingTab.ResumeLayout(false);
             this.MatchingTab.PerformLayout();
@@ -506,9 +569,9 @@
             this.tabPage1.PerformLayout();
             this.PracticePanel.ResumeLayout(false);
             this.PracticePanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ImgPractice)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PracticeImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TactorImgPractice)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackBarPractice)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -550,10 +613,15 @@
         private System.Windows.Forms.Label GainLabel;
         private System.Windows.Forms.Button LetsGetStartedButton;
         private System.Windows.Forms.Panel PracticePanel;
-        private System.Windows.Forms.PictureBox ImgPractice;
+        private System.Windows.Forms.PictureBox PracticeImage;
         private System.Windows.Forms.PictureBox TactorImgPractice;
-        private System.Windows.Forms.TrackBar TrackBarPractice;
-        private System.Windows.Forms.Button PulseTactorButtonPractice;
+        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.Button PulseTactorPracticeButton;
+        private System.Windows.Forms.Label InstFrequencyLabel;
+        private System.Windows.Forms.Label InstGainLabel;
+        private System.Windows.Forms.Label ImgIntensityPractice;
+        private System.Windows.Forms.RadioButton TactorModePracticeRadio;
+        private System.Windows.Forms.RadioButton ColorModePracticeRadio;
 
     }
 }

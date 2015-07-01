@@ -8,7 +8,7 @@
     <ProjectGuid>{B0D5C869-2BE5-48C4-B81E-D8B2A5C555A4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MultiModalMatching</RootNamespace>
+    <RootNamespace>InfinitePrecisionMatching</RootNamespace>
     <AssemblyName>DiscoverController</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>

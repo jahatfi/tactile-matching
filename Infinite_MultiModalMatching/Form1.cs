@@ -29,9 +29,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace MultiModalMatching
+namespace InfinitePrecisionMatching
 {
-    public partial class MultiModalMatchingForm : Form
+    public partial class InfinitePrecisionMatchingForm : Form
     {
         //Variables to pass to the tactor functions
         private int gain = 65;
@@ -51,15 +51,15 @@ namespace MultiModalMatching
         //If false, then match the brightness to a constant vibration, and vice-versa
         private bool visual_mode = false;
 
-        public MultiModalMatchingForm()
+        public InfinitePrecisionMatchingForm()
         {
             InitializeComponent();
             //To initialize the TDKInterface we need to call InitializeTI before we use any
             //of its functionality
             Console.AppendText("InitializeTI\n");
             CheckTDKErrors(Tdk.TdkInterface.InitializeTI());
-            this.tabControl1.TabPages.Remove(this.MatchingTab);
-            this.tabControl1.TabPages.Remove(this.tabPage1);
+            //this.tabControl1.TabPages.Remove(this.MatchingTab);
+            //this.tabControl1.TabPages.Remove(this.tabPage1);
         }
 
         private void DiscoverButton_Click(object sender, EventArgs e)
@@ -97,7 +97,7 @@ namespace MultiModalMatching
                 Console.AppendText("Discover Failed:\n");
                 Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString());
             }
-            
+
 
         }
 
@@ -108,7 +108,7 @@ namespace MultiModalMatching
             {
                 if (discoverradio.Checked)
                     selectedComPort = ComPortComboBox.SelectedItem.ToString();
-                else  selectedComPort = comportselection.Text;
+                else selectedComPort = comportselection.Text;
 
                 Console.AppendText("\nConnecting to com port " + selectedComPort + "\n");
                 //Connect connects to the tactor controller via serial with the given name
@@ -213,9 +213,9 @@ namespace MultiModalMatching
             if (visual_mode)
             {
                 //255 - 64 = 191
-                gain = (int)(64 + (trackValue/max) * 191);
+                gain = (int)(64 + (trackValue / max) * 191);
                 //was 1250 + ... (not sure why)
-                frequency = (int)(300 + (trackValue/max) * 3250);
+                frequency = (int)(300 + (trackValue / max) * 3250);
 
             }//VISUAL MODE
 
@@ -319,7 +319,8 @@ namespace MultiModalMatching
                 EnterButton.Enabled = false;
                 DiscoverButton.Enabled = false;
                 StartButton.Enabled = false;
-                tabControl1.SelectedIndex = 1;
+                //tabControl1.SelectedIndex = 1;
+                tabControl1.SelectedIndex = 2;
                 CountLabel.Text = "Round " + (count + 1) + " of " + trials;
                 initialize();
 
@@ -344,7 +345,7 @@ namespace MultiModalMatching
                 results.Add((int)((float)trackBar1.Value * 6.67));
                 string path = @"C:\Users\jahatfi\Desktop\" + ParticipantNumber.Text + "Results.txt";
                 //FileStream file = File.Open(path, FileMode.Create);
-                
+
                 //TextWriter tw = new StreamWriter(path);
 
                 using (StreamWriter sw = new StreamWriter(path, true))
@@ -353,8 +354,8 @@ namespace MultiModalMatching
                     sw.WriteLine("Presentation Order\tStart Modality\tStart Intensity\tMatch Modality\tMatch Intensity\n");
                     for (int i = 0; i < trials; i++)
                     {
-                        if(start_modality[i])
-                            sw.WriteLine((i+1).ToString() + "\t\t\tV\t\t" + start_intensity[i].ToString() + "\t\tT\t\t" + results[i] );
+                        if (start_modality[i])
+                            sw.WriteLine((i + 1).ToString() + "\t\t\tV\t\t" + start_intensity[i].ToString() + "\t\tT\t\t" + results[i]);
                         else
                             sw.WriteLine((i + 1).ToString() + "\t\t\tT\t\t" + start_intensity[i].ToString() + "\t\tV\t\t" + results[i]);
                     }
@@ -371,12 +372,92 @@ namespace MultiModalMatching
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Selected: " + trackBar1.Value );
+            MessageBox.Show("Selected: " + trackBar1.Value);
         }
 
-        private void label9_Click(object sender, EventArgs e)
+        private void LetsGetStartedButton_Click(object sender, EventArgs e)
         {
+            LetsGetStartedButton.Enabled = false;
+            tabControl1.SelectedIndex = 1;
 
         }
+
+        private void PulseTactorPracticeButton_Click(object sender, EventArgs e)
+        {
+            //This sends a command to the tactor controller to pulse tactor 1 for 250 milliseconds
+            Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
+            Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
+            CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedBoardID, 1, 1000, 0));
+            GainLabel.Text = "Gain:" + gain;
+            FrequencyLabel.Text = "Frequency: " + frequency;
+        }
+
+        private void LetsGetStartedButton_Click_1(object sender, EventArgs e)
+        {
+            PracticePanel.Visible = false;
+            this.tabControl1.TabPages.Remove(this.tabPage1);
+            this.tabControl1.TabPages.Add(this.MatchingTab);
+            this.tabControl1.TabPages.Add(this.tabPage1);
+            initialize();
+        }
+
+        private void TactorModePracticeRadio_Click(object sender, EventArgs e)
+        {
+            float trackValue = trackBar2.Value;
+            //This allows us to calculate the scale factor rather than hardcoding it.
+            float max = trackBar2.Maximum;
+            //255 - 64 = 191
+            gain = (int)(64 + (trackValue / max) * 191);
+            //was 1250 + ... (not sure why)
+            frequency = (int)(300 + (trackValue / max) * 3200);
+
+            InstGainLabel.Text = "Gain:" + gain;
+            InstFrequencyLabel.Text = "Frequency: " + frequency;
+            PulseTactorPracticeButton.Enabled = true;
+            PracticeImage.Enabled = false;
+            InstGainLabel.Visible = true;
+            InstFrequencyLabel.Visible = true;
+            ImgIntensityPractice.Visible = false;
+        }
+
+        private void ColorModePracticeRadio_Click(object sender, EventArgs e)
+        {
+            PracticeImage.Enabled = true;
+            PulseTactorPracticeButton.Enabled = false;
+            InstGainLabel.Visible = false;
+            InstFrequencyLabel.Visible = false;
+            ImgIntensityPractice.Visible = true;
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            float trackValue = trackBar2.Value;
+            //This allows us to calculate the scale factor rather than hardcoding it.
+            float max = trackBar2.Maximum;
+
+            //IF TACTOR MODE IS SELECTED, USER CAN ONLY CHANGE THE INTENSITY OF VIBRATION ON THE TACTOR
+            if (TactorModePracticeRadio.Checked)
+            {
+                //255 - 64 = 191
+                gain = (int)(64 + (trackValue / max) * 191);
+                //was 1250 + ... (not sure why)
+                frequency = (int)(300 + (trackValue / max) * 3200);
+
+                InstGainLabel.Text = "Gain:" + gain;
+                InstFrequencyLabel.Text = "Frequency: " + frequency;
+            }//TACTOR MODE
+
+            //COLOR MODE: USER CAN ONLY CHANGE THE BRIGHTNESS OF THE IMAGE
+            else
+            {
+                //RGB values are all equal for a greyscale color
+                //Scale up to 255 
+                int color = (int)(trackValue / max * 255);
+                PracticeImage.BackColor = Color.FromArgb(color, color, color);
+                ImgIntensityPractice.Text = "Image Color Intensity: " + color;
+            }//COLOR MODE
+        }
+
+
     }
 }

@@ -527,7 +527,7 @@
             this.LetsGetStartedButton.Name = "LetsGetStartedButton";
             this.LetsGetStartedButton.Size = new System.Drawing.Size(138, 23);
             this.LetsGetStartedButton.TabIndex = 52;
-            this.LetsGetStartedButton.Text = "Let\'s get started!";
+            this.LetsGetStartedButton.Text = "Let\'s Get Started!";
             this.LetsGetStartedButton.UseVisualStyleBackColor = true;
             this.LetsGetStartedButton.Click += new System.EventHandler(this.LetsGetStartedButton_Click);
             // 

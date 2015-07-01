@@ -1,6 +1,6 @@
-﻿namespace MultiModalMatching
+﻿namespace TenPointMatching
 {
-    partial class MultiModalMatchingForm
+    partial class TenPointMatchingForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultiModalMatchingForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TenPointMatchingForm));
             this.MatchingTab = new System.Windows.Forms.TabPage();
             this.FrequencyLabel = new System.Windows.Forms.Label();
             this.GainLabel = new System.Windows.Forms.Label();
@@ -123,7 +123,6 @@
             this.FrequencyLabel.Size = new System.Drawing.Size(63, 13);
             this.FrequencyLabel.TabIndex = 42;
             this.FrequencyLabel.Text = "Frequency: ";
-            this.FrequencyLabel.Click += new System.EventHandler(this.label9_Click);
             // 
             // GainLabel
             // 
@@ -592,13 +591,13 @@
             this.label3.TabIndex = 0;
             this.label3.Text = resources.GetString("label3.Text");
             // 
-            // MultiModalMatchingForm
+            // TenPointMatchingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(947, 593);
             this.Controls.Add(this.tabControl1);
-            this.Name = "MultiModalMatchingForm";
+            this.Name = "TenPointMatchingForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MultiModalMatchingForm_FormClosed);
             this.MatchingTab.ResumeLayout(false);
             this.MatchingTab.PerformLayout();

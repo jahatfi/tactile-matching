@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace MultiModalMatching
+namespace InfinitePrecisionMatching
 {
     static class Program
     {
@@ -14,7 +14,7 @@ namespace MultiModalMatching
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MultiModalMatchingForm());
+            Application.Run(new InfinitePrecisionMatchingForm());
         }
     }
 }

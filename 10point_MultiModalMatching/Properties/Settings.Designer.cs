@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MultiModalMatching.Properties {
+namespace TenPointMatching.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

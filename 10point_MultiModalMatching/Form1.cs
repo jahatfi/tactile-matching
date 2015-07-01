@@ -29,9 +29,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace MultiModalMatching
+namespace TenPointMatching
 {
-    public partial class MultiModalMatchingForm : Form
+    public partial class TenPointMatchingForm : Form
     {
         //Variables to pass to the tactor functions
         private int gain = 65;
@@ -52,7 +52,7 @@ namespace MultiModalMatching
         //If false, then match the brightness to a constant vibration, and vice-versa
         private bool visual_mode = false;
 
-        public MultiModalMatchingForm()
+        public TenPointMatchingForm()
         {
             InitializeComponent();
             //To initialize the TDKInterface we need to call InitializeTI before we use any
@@ -383,11 +383,6 @@ namespace MultiModalMatching
             MessageBox.Show("Selected: " + trackBar1.Value );
         }
 
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void LetsGetStartedButton_Click(object sender, EventArgs e)
         {
             initialize();
@@ -470,5 +465,6 @@ namespace MultiModalMatching
                 ImgIntensityPractice.Text = "Image Color Intensity: " + color;
             }//COLOR MODE
         }
+
     }
 }
