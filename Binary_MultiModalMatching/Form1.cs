@@ -28,6 +28,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+//using WMPLib;
+using Microsoft.DirectX.AudioVideoPlayback;
+
 
 
 //-------------------------------------------------------------------------//
@@ -45,37 +48,64 @@ namespace Binary_MultiModalMatching
 {
     public partial class Binary_MultiModalMatchingForm : Form
     {
+        private bool soundPlayed = false;
+        private bool tactorPulsed = false;
         //Variables to pass to the tactor functions
         private int gain = 65;
         private int frequency = 1250;
+        //According to the DirectX API (found at https://msdn.microsoft.com/en-us/library/windows/desktop/bb324235%28v=vs.85%29.aspx)
+        //the volume is on a scale of -10,000 - 0
+        private int volume;
         private int ConnectedBoardID = -1;
         private int trials = 0;
         private int subtrial = 1;
         private int subtrials = 2;
         private int count = 0;
         private int min, max = 0;
-        private List<bool> start_modality = new List<bool>();
+        private float trackValue = 0;
+        private List<int> start_modality = new List<int>();
+        private List<int> match_modality = new List<int>();
         private List<int> start_intensity = new List<int>();
         private string participant_name = "";
 
         //private List<bool, int> configuration = new List<bool, int>();
         private List<int> results = new List<int>();
 
-        //Determines which mode to use: tactile or visual: false is tactile, and true is visual;
+        //Determines which mode to use: tactile, visual, or auditory:
+        //0: tactile (user adjusts the intensity of the vibration)
+        //1: visual (user adjusts the intensity of the brightness)
+        //2: auditory (user adjusts the volume of the sound)
         //Set a default value to avoid undefined behavior (See Meyer's text)
-        //If false, then match the brightness to a constant vibration, and vice-versa
-        private bool visual_mode = false;
+        private int mode = 0;
+        private int match_mode = 0;
+        private Audio myAudio; 
 
         public Binary_MultiModalMatchingForm()
         {
+            //SOUND CODE
+            //NOTE THAT THIS LINE TAKES A SHORT BIT TO EXECUTE - THE ERROR MESSAGE IS HARMLESS
+            myAudio = new Audio(@"C:/Users/Public/Documents/0.1.0.9.r25 API/tutorials/Windows/C#/Serial/chimes.wav", true);
+            
+
+            //FOR USE WITH WMP - DISCOVERED WMP DOESN'T ALLOW VOLUME CONTROL
+            //WMPLib.WindowsMediaPlayer soundPlayer = new WindowsMediaPlayer();
+            //soundPlayer.URL = "C:/Users/Public/Documents/0.1.0.9.r25 API/tutorials/Windows/C#/Serial/chimes.wav";
+            //soundPlayer.controls.play();
+
             InitializeComponent();
             //To initialize the TDKInterface we need to call InitializeTI before we use any
             //of its functionality
-            Console.AppendText("InitializeTI\n");
+            Console.AppendText("Initializing Tactor Interface...\n");
             CheckTDKErrors(Tdk.TdkInterface.InitializeTI());
 
             this.MainPanel.TabPages.Remove(this.MatchingTab);
-            this.MainPanel.TabPages.Remove(this.tabPage1);
+            this.MainPanel.TabPages.Remove(this.Instructions);
+
+            //For testing
+            //Console.AppendText(myAudio.CurrentPosition.ToString());
+            //myAudio.Play();
+            //myAudio.SeekCurrentPosition(0.0, SeekPositionFlags.AbsolutePositioning);
+            Console.AppendText(myAudio.State.ToString()+"\n");
         }
 
         private void DiscoverButton_Click(object sender, EventArgs e)
@@ -114,7 +144,7 @@ namespace Binary_MultiModalMatching
                 Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString());
             }
             
-
+            
         }
 
         private void ConnectButton_Click(object sender, EventArgs e)
@@ -146,7 +176,8 @@ namespace Binary_MultiModalMatching
                     ConnectedBoardID = ret;
                     DiscoverButton.Enabled = false;
                     PulseTactor1Button.Enabled = true;
-                    discoverradio.Checked = true;
+                    ConnectButton.Enabled = false;
+                    //discoverradio.Checked = true;
                 }
                 else
                 {
@@ -160,16 +191,20 @@ namespace Binary_MultiModalMatching
 
         private void PulseTactor1Button_Click(object sender, EventArgs e)
         {
-            if (visual_mode)
+
+            if (!radioButtonA.Checked && !radioButtonB.Checked)
             {
-                if (!radioButtonA.Checked && !radioButtonB.Checked)
-                {
-                    MessageBox.Show("You must select A or B to continue.");
-                    return;
-                }
+                MessageBox.Show("You must select A or B to continue.");
+                return;
             }
-            NextButton.Enabled = true;
-            Console.AppendText("Pulse tactor 1\n");
+
+            tactorPulsed = true;
+
+            //Enable the next button if neither the stimulus nor the match mode are "auditory",
+            //or if the sound has already been played
+            if (soundPlayed) NextButton.Enabled = true;
+            else if (mode != 2 && match_mode != 2) NextButton.Enabled = true;            
+
             //This sends a command to the tactor controller to pulse tactor 1 for 250 milliseconds
             Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
             Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
@@ -201,124 +236,244 @@ namespace Binary_MultiModalMatching
                 //recorded in the tdk interface.
                 Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString());
             }
+            else Console.AppendText("Success\r\n");
         }
 
-        private void initialize()
+        private void Initialize()
         {
             if (subtrial == 1)
             {
                 min = 0;
                 max = 100;
-                visual_mode = start_modality[count];
+                mode = start_modality[count];
+                match_mode = match_modality[count];
 
-                if (visual_mode)
+                //Set all values to their minimum
+                gain = 64;
+                frequency = 300;
+                volume = -10000;
+                //Radio Button 'A' will be selected initially
+                radioButtonA.Select();
+                 
+
+                //Disable all buttons and set image to black.  
+                //The relevant buttons will be enabled as needed
+                PulseTactor1Button.Enabled = false;
+                PlaySoundButton.Enabled = false;
+                pictureBox1.BackColor = Color.FromArgb(0,0,0);
+                GainLabel.Visible = false;
+                FrequencyLabel.Visible = false;
+                Sound_Image_Intensity.Visible = false;
+                NextButton.Enabled = false;
+
+                //Stimulus: Tactile
+                if (mode == 0)
                 {
-                    label1.Visible = true;
-                    label2.Visible = false;
-
-                    int color = (int)((start_intensity[count] * 2.55));
-
-                    pictureBox1.BackColor = Color.FromArgb(color, color, color);
                     PulseTactor1Button.Enabled = true;
+                    GainLabel.Text = "Gain:" + gain;
+                    FrequencyLabel.Text = "Frequency: " + frequency;
+                    GainLabel.Visible =  true;
+                    FrequencyLabel.Visible = true;
+
+                    //Match mode: Visual
+                    if (match_mode == 1)
+                    {
+                        InstructionLabel.Text = "Pick the intensity of the brightness which best corresponds to the intensity of the vibration.";
+                    }
+
+                    //Match Mode: Auditory
+                    else if (match_mode == 2)
+                    {
+                        InstructionLabel.Text = "Pick the volume of sound which best corresponds to the intensity of the vibration.";
+                        PlaySoundButton.Enabled = true;
+                        Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                        Sound_Image_Intensity.Visible = true;
+                    }
                 }
-                else
+
+                //Stimulus: Visual
+                else if (mode == 1)
                 {
-                    label2.Visible = true;
-                    label1.Visible = false;
-                    gain = 64 + (int)((float)start_intensity[count] * 1.91);
-                    frequency = 300 + (int)((float)start_intensity[count] * 32);
+                    int color = (int)((start_intensity[count] * 2.55));
+                    pictureBox1.BackColor = Color.FromArgb(color, color, color);
+
+                    //Match Mode: Tactile
+                    if (match_mode == 0)
+                    {
+                        InstructionLabel.Text = "Pick the intensity of the vibration which best corresponds to the brightness.";
+                        PulseTactor1Button.Enabled = true;
+
+                        GainLabel.Text = "Gain:" + gain;
+                        FrequencyLabel.Text = "Frequency: " + frequency;
+                        GainLabel.Visible = true;
+                        FrequencyLabel.Visible = true;
+                    }
+
+                    //Match Mode: Auditory
+                    else if (match_mode == 2)
+                    {
+                        InstructionLabel.Text = "Pick the volume of sound which best corresponds to the brightness";
+                        PlaySoundButton.Enabled = true;
+                        Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                        Sound_Image_Intensity.Visible = true;
+                    }
                 }
-                GainLabel.Text = "Gain:" + gain;
-                FrequencyLabel.Text = "Frequency: " + frequency;
-                return;
+
+                //Stimulus: Auditory
+                else if (match_mode == 2){
+                    //Match mode: Tactile
+                    Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                    Sound_Image_Intensity.Visible = true;
+
+                    //Match Mode: Tactile
+                    if (match_mode == 0)
+                    {
+                        InstructionLabel.Text = "Pick the intensity of the vibration which best corresponds to the volume.";
+                        PulseTactor1Button.Enabled = true;
+
+                        GainLabel.Text = "Gain:" + gain;
+                        FrequencyLabel.Text = "Frequency: " + frequency;
+                        GainLabel.Visible = true;
+                        FrequencyLabel.Visible = true;
+                    }
+
+                    //Match mode: Visual
+                    if (match_mode == 1)
+                    {
+                        InstructionLabel.Text = "Pick the intensity of the brightness which best corresponds to the intensity of the vibration.";
+                    }                        
+                }
             }//if
 
             else
             {
-                if (radioButtonA.Checked == true) 
+                if (radioButtonA.Checked == true)
                     max = min + (int)((max - min) / 2);
-                else 
+                else
                     min = min + (int)((max - min) / 2);
             }
         }
 
+
         private void EnterButton_Click(object sender, EventArgs e)
         {
             string path = @"C:\Users\jahatfi\Desktop\" + FileName.Text;
-            if (!File.Exists(path)) Console.AppendText("Cannot find the file.  Please Try Again.\n");
-
-            else
+            if (!File.Exists(path))
             {
-                Console.AppendText("Found the file.\n");
-                EnterButton.Enabled = false;
-                // Open the file to read from. 
-                using (StreamReader sr = File.OpenText(path))
+                Console.AppendText("Cannot find the file.  Please Try Again.\n");
+                return;
+            }
+
+            Console.AppendText("Found the file.\r\n");
+            EnterButton.Enabled = false;
+            // Open the file to read from. 
+            using (StreamReader sr = File.OpenText(path))
+            {
+                char[] delimiterChars = { ',', ' ', '\t' };
+                string s = "";
+                if ((s = sr.ReadLine()) == null)
                 {
-                    char[] delimiterChars = { ',', ' ', '\t' };
-                    string s = "";
-                    if ((s = sr.ReadLine()) == null)
+                    Console.AppendText("File is empty, please try again.\r\n");
+                    EnterButton.Enabled = true;
+                }
+                else
+                {
+                    while ((s = sr.ReadLine()) != null)
                     {
-                        Console.AppendText("File is empty, please try again.\n");
-                        EnterButton.Enabled = true;
-                    }
+                        //Get the modality
+                        string[] words = s.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
+                        Console.AppendText(words[0] + ": " + words[1] + ", " + words[2] +  ", " + words[3] + '\n');
+
+                        //Get the starting modality
+                        switch (words[1])
+                        {
+                            case "T":
+                                start_modality.Add(0);
+                                break;
+                            case "V":
+                                start_modality.Add(1);
+                                break;
+                            case "A":
+                                start_modality.Add(2);
+                                break;
+                            default:
+                                Console.AppendText("Invalid mode in configuration file.  Please check the file and start over.\r\n");
+                                match_modality.Clear();
+                                start_intensity.Clear();
+                                start_modality.Clear();
+                                return;
+                        }
+
+                        //Get the matching modality
+                        switch (words[2])
+                        {
+                            case "T":
+                                match_modality.Add(0);
+                                break;
+                            case "V":
+                                match_modality.Add(1);
+                                break;
+                            case "A":
+                                match_modality.Add(2);
+                                break;
+                            default:
+                                Console.AppendText("Invalid mode in configuration file.  Please check the file and start over.");
+                                match_modality.Clear();
+                                start_intensity.Clear();
+                                start_modality.Clear();
+                                return;
+                        }
+
+                        //Get the intensity
+                        int intensity = 0;
+                        if (int.TryParse(words[3], out intensity)) start_intensity.Add(intensity);
+                        else
+                        {
+                            Console.AppendText("One or more of the intensity values is invalid.  Please correct it in the configuration file and start over.");
+                            start_modality.Clear();
+                            start_intensity.Clear();
+                            break;
+                        }
+
+                    }//while
+
+                    if (match_modality.Count != start_intensity.Count)
+                        MessageBox.Show("Each start modality must have a corresponding matched modality.  Please correct your configuration file.");
                     else
                     {
-                        while ((s = sr.ReadLine()) != null)
+                        for (int i = 0; i < match_modality.Count; ++i)
                         {
-                            //Get the modality
-                            Console.AppendText(s + '\n');
-                            string[] words = s.Split(delimiterChars);
-                            //TESTING ONLY
-                            /*
-                            Console.AppendText(words[0] + '\n');
-                            Console.AppendText(words[1] + '\n');
-                            Console.AppendText(words[2] + '\n');
-                            */
-                            if (string.Compare(words[1], "V") == 0) start_modality.Add(true);
-                            else if (string.Compare(words[1], "T") == 0) start_modality.Add(false);
-                            else
+                            if (match_modality[i] == start_modality[i])
                             {
-                                Console.AppendText("Invalid data in configuration file.  Please check the file and start over.");
-                                start_modality.Clear();
-                                start_intensity.Clear();
+                                MessageBox.Show("A start modality is the same as it's matched modality.  Please make sure they are different and try again.");
                                 break;
                             }
-                            //Get the intensity
-                            int intensity = 0;
-                            if (int.TryParse(words[2], out intensity)) start_intensity.Add(intensity);
-                            else
-                            {
-                                Console.AppendText("Invalid data in configuration file.  Please check the file and start over.");
-                                start_modality.Clear();
-                                start_intensity.Clear();
-                                break;
-                            }
-
-                        }//while
-
-                        //FOR TESTING ONLY 
-                        /*
-                        for (int index = 0; index < start_intensity.Count; index++)
-                        {
-                            Console.AppendText("Mode:" + start_modality[index] + "Intensity" + start_intensity[index]);
                         }
-                        */
+                    }
 
-                    }//else
-                    //sr.Dispose();
-                }//using
-                trials = start_intensity.Capacity;
-                Console.AppendText("trials: " + trials);
-                StartButton.Enabled = true;
-                DiscoverButton.Enabled = true;
-                ConnectButton.Enabled = true;
-                FileName.Enabled = false;
-            }//else
+                    //FOR TESTING ONLY 
+                    /*
+                    for (int index = 0; index < start_intensity.Count; index++)
+                    {
+                        Console.AppendText("Mode:" + start_modality[index] + "Intensity" + start_intensity[index]);
+                    }
+                    */
+
+                }//else
+                //sr.Dispose();
+            }//using
+            trials = start_intensity.Capacity;
+            Console.AppendText("trials: " + trials);
+            StartButton.Enabled = true;
+            FileName.Enabled = false;
+
         }//button3_Click
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            if (ParticipantNumber.Text == "")
+            if(ConnectButton.Enabled)
+                MessageBox.Show("Please connect to the tactor to continue.");
+            else if (ParticipantNumber.Text == "")
                 MessageBox.Show("Please enter the participant number to continue");
             else if (EnterButton.Enabled == true)
                 MessageBox.Show("Please select a configuration file before continuing.");
@@ -330,7 +485,7 @@ namespace Binary_MultiModalMatching
                  MessageBox.Show("Please enter a valid number between 1 - 10.");
             else
             {
-                this.MainPanel.TabPages.Add(this.tabPage1);
+                this.MainPanel.TabPages.Add(this.Instructions);
                 participant_name = ParticipantNumber.Text;
                 EnterButton.Enabled = false;
                 DiscoverButton.Enabled = false;
@@ -352,7 +507,11 @@ namespace Binary_MultiModalMatching
             }
             if (count != trials)
             {
-                if (subtrial != subtrials) subtrial++;
+                if (subtrial != subtrials)
+                {
+                    subtrial++;
+                    NextButton.Enabled = false;
+                }
                 else
                 {
                     subtrial = 1;
@@ -363,10 +522,10 @@ namespace Binary_MultiModalMatching
 
                 if (count != trials)
                 {
-                    initialize();
+                    Initialize();
 
-                    radioButtonA.Checked = false;
-                    radioButtonB.Checked = false;
+                    //radioButtonA.Checked = false;
+                    //radioButtonB.Checked = false;
                 }
                 else
                 {
@@ -377,8 +536,7 @@ namespace Binary_MultiModalMatching
                     pictureBox2.Visible = false;
                     radioButtonA.Visible = false;
                     radioButtonB.Visible = false;
-                    label1.Visible = false;
-                    label2.Visible = false;
+                    InstructionLabel.Visible = false;
                     PulseTactor1Button.Visible = false;
                     NextButton.Visible = false;
                     CountLabel.Visible = false;
@@ -397,10 +555,12 @@ namespace Binary_MultiModalMatching
                         sw.WriteLine("Presentation Order\tStart Modality\tStart Intensity\tMatch Modality\tMatch Intensity\n");
                         for (int i = 0; i < trials; i++)
                         {
-                            if (start_modality[i])
-                                sw.WriteLine((i + 1).ToString() + "\t\t\tV\t\t" + start_intensity[i].ToString() + "\t\tT\t\t" + results[i]);
-                            else
-                                sw.WriteLine((i + 1).ToString() + "\t\t\tT\t\t" + start_intensity[i].ToString() + "\t\tV\t\t" + results[i]);
+                            if (start_modality[i] == 0)
+                                sw.WriteLine((i + 1).ToString() + "\t\t\tT\t\t" + start_intensity[i].ToString() + "\t\tT\t\t" + results[i]);
+                            else if (start_modality[i] == 1)
+                                sw.WriteLine((i + 1).ToString() + "\t\t\tV\t\t" + start_intensity[i].ToString() + "\t\tV\t\t" + results[i]);
+                            else if (start_modality[i] == 2)
+                                sw.WriteLine((i + 1).ToString() + "\t\t\tA\t\t" + start_intensity[i].ToString() + "\t\tA\t\t" + results[i]);
                         }
                         sw.WriteLine("\n\n");
                     }
@@ -412,64 +572,165 @@ namespace Binary_MultiModalMatching
         private void radioButtonB_Click(object sender, EventArgs e)
         {
             int color;
-            if (visual_mode)
+
+            //Stimulus: Tactile
+            if (mode == 0)
             {
-                gain = (int)(64 + (float)(max * 1.91));
-                frequency = (int)(300 + (float)(max * 32));
-                GainLabel.Text = "Gain:" + gain;
-                FrequencyLabel.Text = "Frequency: " + frequency;
+
+                //Matching: Visual
+                if (match_mode == 1)
+                {
+                    color = (int)(max * 2.55);
+                    pictureBox1.BackColor = Color.FromArgb(color, color, color);
+                }
+
+                //Matching: Auditory
+                else if (match_mode == 2) volume = (100 * max) - 10000;
             }
-            else
+
+            //Stimulus: Visual
+            else if (mode == 1)
             {
-                color = (int)(max * 2.55);
-                pictureBox1.BackColor = Color.FromArgb(color, color, color);
+
+                //Matching: Tactile
+                if (match_mode == 0)
+                {
+                    gain = (int)(64 + (float)(max * 1.91));
+                    frequency = (int)(300 + (float)(max * 22));
+                    GainLabel.Text = "Gain:" + gain;
+                    FrequencyLabel.Text = "Frequency: " + frequency;
+                }
+
+                //Matching: Auditory
+                else if (match_mode == 2){
+                    volume = (100 * max) - 10000;
+                    Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                }
+            }
+
+            //Stimulus: Auditory
+            else if (mode == 2)
+            {
+
+                //Matching: Tactile
+                if (match_mode == 0)
+                {
+                    gain = (int)(64 + (float)(max * 1.91));
+                    frequency = (int)(300 + (float)(max * 22));
+                    GainLabel.Text = "Gain:" + gain;
+                    FrequencyLabel.Text = "Frequency: " + frequency;
+                }
+
+                //Matching: Visual
+                else if (match_mode == 1)
+                {
+                    color = (int)(max * 2.55);
+                    pictureBox1.BackColor = Color.FromArgb(color, color, color);
+                }
             }
         }
 
         private void radioButtonA_Click(object sender, EventArgs e)
         {
             int color;
-            if (visual_mode)
+            
+            //Stimulus: Tactile
+            if (mode == 0)
             {
-                gain = (int)(64 + (float)(min * 1.91));
-                frequency = (int)(300 + (float)(min * 32));
-                GainLabel.Text = "Gain:" + gain;
-                FrequencyLabel.Text = "Frequency: " + frequency;
-            }
-            else
-            {
-                color = (int)(min * 2.55);
-                pictureBox1.BackColor = Color.FromArgb(color, color, color);
-            }
-        }
 
+                //Matching: Visual
+                if (match_mode == 1)
+                {
+                    color = (int)(min * 2.55);
+                    pictureBox1.BackColor = Color.FromArgb(color, color, color);
+                }
+
+                //Matching: Auditory
+                else if (match_mode == 2)
+                {
+                    volume = (100 * min) - 10000;
+                    Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                }
+            }
+
+            //Stimulus: Visual
+            else if (mode == 1)
+            {
+
+                //Matching: Tactile
+                if (match_mode == 0)
+                {
+                    gain = (int)(64 + (float)(min * 1.91));
+                    frequency = (int)(300 + (float)(min * 22));
+                    GainLabel.Text = "Gain:" + gain;
+                    FrequencyLabel.Text = "Frequency: " + frequency;
+                }
+
+                //Matching: Auditory
+                else if (match_mode == 2)
+                {
+                    volume = (100 * min) - 10000;
+                    Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                }
+            }
+
+            //Stimulus: Auditory
+            else if (mode == 2)
+            {
+
+                //Matching: Tactile
+                if (match_mode == 0)
+                {
+                    gain = (int)(64 + (float)(min * 1.91));
+                    frequency = (int)(300 + (float)(min * 22));
+                    GainLabel.Text = "Gain:" + gain;
+                    FrequencyLabel.Text = "Frequency: " + frequency;
+                }
+
+                                //Matching: Visual
+                else if (match_mode == 1)
+                {
+                    color = (int)(min * 2.55);
+                    pictureBox1.BackColor = Color.FromArgb(color, color, color);
+                }
+            }
+        }//radioButtonA_Click()
+                    
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            float trackValue = trackBar1.Value;
+            int maxTrackValue = practiceTrackbar.Maximum;
+            trackValue = practiceTrackbar.Value;
             //This allows us to calculate the scale factor rather than hardcoding it.
-            float max = trackBar1.Maximum;
 
             //IF TACTOR MODE IS SELECTED, USER CAN ONLY CHANGE THE INTENSITY OF VIBRATION ON THE TACTOR
             if (TactorModePracticeRadio.Checked)
             {
                 //255 - 64 = 191
-                gain = (int)(64 + (trackValue / max) * 191);
+                gain = (int)(64 + (trackValue / maxTrackValue) * 191);
                 //was 1250 + ... (not sure why)
-                frequency = (int)(300 + (trackValue / max) * 3200);
+                frequency = (int)(300 + (trackValue / maxTrackValue) * 2200);
 
                 InstGainLabel.Text = "Gain:" + gain;
                 InstFrequencyLabel.Text = "Frequency: " + frequency;
             }//TACTOR MODE
 
             //COLOR MODE: USER CAN ONLY CHANGE THE BRIGHTNESS OF THE IMAGE
-            else
+            else if(ColorModePracticeRadio.Checked)
             {
                 //RGB values are all equal for a greyscale color
                 //Scale up to 255 
-                int color = (int)(trackValue / max * 255);
+                int color = (int)(trackValue / maxTrackValue * 255);
                 PracticeImage.BackColor = Color.FromArgb(color, color, color);
                 ImgIntensityPractice.Text = "Image Color Intensity: " + color;
             }//COLOR MODE
+
+            // v should probaly just be an else{}
+            else if (SoundModePracticeRadio.Checked)
+            {
+                volume = (int)((trackValue / maxTrackValue) * 10000 - 10000);
+                ImgIntensityPractice.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                //ImgIntensityPractice.Text = "Volume :"  + volume.ToString();
+            }
         }
 
         private void PulseTactorPracticeButton_Click(object sender, EventArgs e)
@@ -483,19 +744,27 @@ namespace Binary_MultiModalMatching
 
         }
 
+        private void PlaySoundPracticeButton_Click(object sender, EventArgs e)
+        {
+            //Remember: the volume is on a scale of -10,000 - 0
+            myAudio.Volume = volume;
+            myAudio.SeekCurrentPosition(0.0, SeekPositionFlags.AbsolutePositioning);
+        }
+
         private void TactorModePracticeRadio_Click(object sender, EventArgs e)
         {
-            float trackValue = trackBar1.Value;
+            trackValue = practiceTrackbar.Value;
             //This allows us to calculate the scale factor rather than hardcoding it.
-            float max = trackBar1.Maximum;
             //255 - 64 = 191
-            gain = (int)(64 + (trackValue / max) * 191);
+            gain = (int)(64 + (trackValue / practiceTrackbar.Maximum) * 191);
             //was 1250 + ... (not sure why)
-            frequency = (int)(300 + (trackValue / max) * 3200);
+            //Max out frequency at 2500
+            frequency = (int)(300 + (trackValue / practiceTrackbar.Maximum) * 2200);
             InstGainLabel.Text = "Gain:" + gain;
             InstFrequencyLabel.Text = "Frequency: " + frequency;
 
             PulseTactorPracticeButton.Enabled = true;
+            PlaySoundPracticeButton.Enabled = false;
             PracticeImage.Enabled = false;
             InstGainLabel.Visible = true;
             InstFrequencyLabel.Visible = true;
@@ -504,20 +773,62 @@ namespace Binary_MultiModalMatching
 
         private void ColorModePracticeRadio_Click(object sender, EventArgs e)
         {
+            trackValue = practiceTrackbar.Value;
+
+            int color = (int)(trackValue / practiceTrackbar.Maximum * 255);
+            PracticeImage.BackColor = Color.FromArgb(color, color, color);
+            ImgIntensityPractice.Text = "Image Color Intensity: " + color;
             PracticeImage.Enabled = true;
+            PulseTactorPracticeButton.Enabled = false;
+            PlaySoundPracticeButton.Enabled = false;
+            InstGainLabel.Visible = false;
+            InstFrequencyLabel.Visible = false;
+            ImgIntensityPractice.Visible = true;
+        }
+
+        private void SoundModePracticeRadio_Click(object sender, EventArgs e)
+        {
+            trackValue = practiceTrackbar.Value;
+            volume = (int)((trackValue / practiceTrackbar.Maximum) * 10000 - 10000);
+
+            PlaySoundPracticeButton.Enabled = true;
             PulseTactorPracticeButton.Enabled = false;
             InstGainLabel.Visible = false;
             InstFrequencyLabel.Visible = false;
+            ImgIntensityPractice.Text = "Volume: " + ((volume + 10000)/100).ToString() + '%';
+
             ImgIntensityPractice.Visible = true;
         }
 
         private void LetsGetStartedButton_Click(object sender, EventArgs e)
         {
             PracticePanel.Visible = false;
-            this.MainPanel.TabPages.Remove(this.tabPage1);
+            this.MainPanel.TabPages.Remove(this.Instructions);
             this.MainPanel.TabPages.Add(this.MatchingTab);
-            this.MainPanel.TabPages.Add(this.tabPage1);
-            initialize();
+            this.MainPanel.TabPages.Add(this.Instructions);
+            Initialize();
         }
+
+        private void PlaySound1Button_Click(object sender, EventArgs e)
+        {
+
+            if (!radioButtonA.Checked && !radioButtonB.Checked)
+            {
+                MessageBox.Show("You must select A or B to continue.");
+                return;
+            }
+            myAudio.Volume = volume;
+            myAudio.SeekCurrentPosition(0.0, SeekPositionFlags.AbsolutePositioning);
+
+            soundPlayed = true;
+
+            //Enable the next button if neither the stimulus nor the match mode are "tactile",
+            //or if the tactor has already been pulse
+            if (tactorPulsed) NextButton.Enabled = true;
+            else if (mode != 0 && match_mode != 0) NextButton.Enabled = true;  
+
+        }
+
+
     }
 }
