@@ -30,12 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InfinitePrecisionMatchingForm));
             this.MatchingTab = new System.Windows.Forms.TabPage();
+            this.PlaySoundButton = new System.Windows.Forms.Button();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.FrequencyLabel = new System.Windows.Forms.Label();
             this.GainLabel = new System.Windows.Forms.Label();
             this.CountLabel = new System.Windows.Forms.Label();
             this.FinishedLabel = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.InstructionLabel = new System.Windows.Forms.Label();
             this.NextButton = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -43,7 +44,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.PulseTactor1Button = new System.Windows.Forms.Button();
+            this.PulseTactorButton = new System.Windows.Forms.Button();
             this.ConfigureTab = new System.Windows.Forms.TabPage();
             this.ParticipantNumber = new System.Windows.Forms.TextBox();
             this.NameLabel = new System.Windows.Forms.Label();
@@ -60,9 +61,12 @@
             this.DiscoverButton = new System.Windows.Forms.Button();
             this.StartButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.InstructionsTab = new System.Windows.Forms.TabPage();
             this.LetsGetStartedButton = new System.Windows.Forms.Button();
             this.PracticePanel = new System.Windows.Forms.Panel();
+            this.PlaySoundPracticeButton = new System.Windows.Forms.Button();
+            this.SoundModePracticeRadio = new System.Windows.Forms.RadioButton();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.TactorModePracticeRadio = new System.Windows.Forms.RadioButton();
             this.ColorModePracticeRadio = new System.Windows.Forms.RadioButton();
             this.InstFrequencyLabel = new System.Windows.Forms.Label();
@@ -74,13 +78,15 @@
             this.PulseTactorPracticeButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.MatchingTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.ConfigureTab.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.InstructionsTab.SuspendLayout();
             this.PracticePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PracticeImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TactorImgPractice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -89,12 +95,13 @@
             // MatchingTab
             // 
             this.MatchingTab.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.MatchingTab.Controls.Add(this.PlaySoundButton);
+            this.MatchingTab.Controls.Add(this.pictureBox3);
             this.MatchingTab.Controls.Add(this.FrequencyLabel);
             this.MatchingTab.Controls.Add(this.GainLabel);
             this.MatchingTab.Controls.Add(this.CountLabel);
             this.MatchingTab.Controls.Add(this.FinishedLabel);
-            this.MatchingTab.Controls.Add(this.label2);
-            this.MatchingTab.Controls.Add(this.label1);
+            this.MatchingTab.Controls.Add(this.InstructionLabel);
             this.MatchingTab.Controls.Add(this.NextButton);
             this.MatchingTab.Controls.Add(this.label4);
             this.MatchingTab.Controls.Add(this.label6);
@@ -102,13 +109,35 @@
             this.MatchingTab.Controls.Add(this.pictureBox1);
             this.MatchingTab.Controls.Add(this.pictureBox2);
             this.MatchingTab.Controls.Add(this.trackBar1);
-            this.MatchingTab.Controls.Add(this.PulseTactor1Button);
+            this.MatchingTab.Controls.Add(this.PulseTactorButton);
             this.MatchingTab.Location = new System.Drawing.Point(4, 22);
             this.MatchingTab.Name = "MatchingTab";
             this.MatchingTab.Padding = new System.Windows.Forms.Padding(3);
             this.MatchingTab.Size = new System.Drawing.Size(924, 574);
             this.MatchingTab.TabIndex = 2;
             this.MatchingTab.Text = "Matching";
+            // 
+            // PlaySoundButton
+            // 
+            this.PlaySoundButton.Enabled = false;
+            this.PlaySoundButton.Location = new System.Drawing.Point(144, 248);
+            this.PlaySoundButton.Name = "PlaySoundButton";
+            this.PlaySoundButton.Size = new System.Drawing.Size(89, 29);
+            this.PlaySoundButton.TabIndex = 44;
+            this.PlaySoundButton.Text = "Play Sound";
+            this.PlaySoundButton.UseVisualStyleBackColor = true;
+            this.PlaySoundButton.Click += new System.EventHandler(this.PlaySoundButton_Click);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(128, 90);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(128, 134);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 43;
+            this.pictureBox3.TabStop = false;
             // 
             // FrequencyLabel
             // 
@@ -146,27 +175,15 @@
             this.FinishedLabel.Text = "Finished!  Thanks for participating!";
             this.FinishedLabel.Visible = false;
             // 
-            // label2
+            // InstructionLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(255, 372);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(399, 13);
-            this.label2.TabIndex = 38;
-            this.label2.Text = "Use the slider to match the intensity of the brightness to the intensity of the v" +
+            this.InstructionLabel.AutoSize = true;
+            this.InstructionLabel.Location = new System.Drawing.Point(255, 372);
+            this.InstructionLabel.Name = "InstructionLabel";
+            this.InstructionLabel.Size = new System.Drawing.Size(399, 13);
+            this.InstructionLabel.TabIndex = 38;
+            this.InstructionLabel.Text = "Use the slider to match the intensity of the brightness to the intensity of the v" +
                 "ibration";
-            this.label2.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(253, 343);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(402, 13);
-            this.label1.TabIndex = 37;
-            this.label1.Text = "Use the slider to match the intensity of the vibration to the intensity of the br" +
-                "ightness.";
-            this.label1.Visible = false;
             // 
             // NextButton
             // 
@@ -207,7 +224,7 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Black;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(256, 90);
+            this.pictureBox1.Location = new System.Drawing.Point(368, 90);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(148, 134);
             this.pictureBox1.TabIndex = 31;
@@ -217,7 +234,7 @@
             // 
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(529, 90);
+            this.pictureBox2.Location = new System.Drawing.Point(630, 90);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(128, 134);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -234,16 +251,16 @@
             this.trackBar1.TabIndex = 29;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
-            // PulseTactor1Button
+            // PulseTactorButton
             // 
-            this.PulseTactor1Button.Enabled = false;
-            this.PulseTactor1Button.Location = new System.Drawing.Point(555, 243);
-            this.PulseTactor1Button.Name = "PulseTactor1Button";
-            this.PulseTactor1Button.Size = new System.Drawing.Size(89, 29);
-            this.PulseTactor1Button.TabIndex = 28;
-            this.PulseTactor1Button.Text = "Pulse Tactor";
-            this.PulseTactor1Button.UseVisualStyleBackColor = true;
-            this.PulseTactor1Button.Click += new System.EventHandler(this.PulseTactor1Button_Click);
+            this.PulseTactorButton.Enabled = false;
+            this.PulseTactorButton.Location = new System.Drawing.Point(653, 248);
+            this.PulseTactorButton.Name = "PulseTactorButton";
+            this.PulseTactorButton.Size = new System.Drawing.Size(89, 29);
+            this.PulseTactorButton.TabIndex = 28;
+            this.PulseTactorButton.Text = "Pulse Tactor";
+            this.PulseTactorButton.UseVisualStyleBackColor = true;
+            this.PulseTactorButton.Click += new System.EventHandler(this.PulseTactor1Button_Click);
             // 
             // ConfigureTab
             // 
@@ -275,6 +292,7 @@
             this.ParticipantNumber.Name = "ParticipantNumber";
             this.ParticipantNumber.Size = new System.Drawing.Size(229, 20);
             this.ParticipantNumber.TabIndex = 50;
+            this.ParticipantNumber.Text = "3";
             // 
             // NameLabel
             // 
@@ -288,6 +306,7 @@
             // connectradio
             // 
             this.connectradio.AutoSize = true;
+            this.connectradio.Checked = true;
             this.connectradio.Location = new System.Drawing.Point(643, 113);
             this.connectradio.Name = "connectradio";
             this.connectradio.Size = new System.Drawing.Size(14, 13);
@@ -302,7 +321,6 @@
             this.discoverradio.Name = "discoverradio";
             this.discoverradio.Size = new System.Drawing.Size(14, 13);
             this.discoverradio.TabIndex = 47;
-            this.discoverradio.TabStop = true;
             this.discoverradio.UseVisualStyleBackColor = true;
             // 
             // comportselection
@@ -311,11 +329,10 @@
             this.comportselection.Name = "comportselection";
             this.comportselection.Size = new System.Drawing.Size(204, 20);
             this.comportselection.TabIndex = 46;
-            this.comportselection.Text = "COM3";
+            this.comportselection.Text = "COM4";
             // 
             // ConnectButton
             // 
-            this.ConnectButton.Enabled = false;
             this.ConnectButton.Location = new System.Drawing.Point(707, 195);
             this.ConnectButton.Name = "ConnectButton";
             this.ConnectButton.Size = new System.Drawing.Size(116, 44);
@@ -400,26 +417,26 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.ConfigureTab);
+            this.tabControl1.Controls.Add(this.InstructionsTab);
             this.tabControl1.Controls.Add(this.MatchingTab);
-            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(932, 600);
             this.tabControl1.TabIndex = 36;
             // 
-            // tabPage1
+            // InstructionsTab
             // 
-            this.tabPage1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.tabPage1.Controls.Add(this.LetsGetStartedButton);
-            this.tabPage1.Controls.Add(this.PracticePanel);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(924, 574);
-            this.tabPage1.TabIndex = 3;
-            this.tabPage1.Text = "Instructions";
+            this.InstructionsTab.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.InstructionsTab.Controls.Add(this.LetsGetStartedButton);
+            this.InstructionsTab.Controls.Add(this.PracticePanel);
+            this.InstructionsTab.Controls.Add(this.label3);
+            this.InstructionsTab.Location = new System.Drawing.Point(4, 22);
+            this.InstructionsTab.Name = "InstructionsTab";
+            this.InstructionsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.InstructionsTab.Size = new System.Drawing.Size(924, 574);
+            this.InstructionsTab.TabIndex = 3;
+            this.InstructionsTab.Text = "Instructions";
             // 
             // LetsGetStartedButton
             // 
@@ -433,6 +450,9 @@
             // 
             // PracticePanel
             // 
+            this.PracticePanel.Controls.Add(this.PlaySoundPracticeButton);
+            this.PracticePanel.Controls.Add(this.SoundModePracticeRadio);
+            this.PracticePanel.Controls.Add(this.pictureBox5);
             this.PracticePanel.Controls.Add(this.TactorModePracticeRadio);
             this.PracticePanel.Controls.Add(this.ColorModePracticeRadio);
             this.PracticePanel.Controls.Add(this.InstFrequencyLabel);
@@ -447,10 +467,44 @@
             this.PracticePanel.Size = new System.Drawing.Size(860, 319);
             this.PracticePanel.TabIndex = 1;
             // 
+            // PlaySoundPracticeButton
+            // 
+            this.PlaySoundPracticeButton.Enabled = false;
+            this.PlaySoundPracticeButton.Location = new System.Drawing.Point(109, 180);
+            this.PlaySoundPracticeButton.Name = "PlaySoundPracticeButton";
+            this.PlaySoundPracticeButton.Size = new System.Drawing.Size(89, 29);
+            this.PlaySoundPracticeButton.TabIndex = 42;
+            this.PlaySoundPracticeButton.Text = "Play Sound";
+            this.PlaySoundPracticeButton.UseVisualStyleBackColor = true;
+            this.PlaySoundPracticeButton.Click += new System.EventHandler(this.PlaySoundPracticeButton_Click);
+            // 
+            // SoundModePracticeRadio
+            // 
+            this.SoundModePracticeRadio.AutoSize = true;
+            this.SoundModePracticeRadio.Location = new System.Drawing.Point(224, 216);
+            this.SoundModePracticeRadio.Name = "SoundModePracticeRadio";
+            this.SoundModePracticeRadio.Size = new System.Drawing.Size(86, 17);
+            this.SoundModePracticeRadio.TabIndex = 41;
+            this.SoundModePracticeRadio.TabStop = true;
+            this.SoundModePracticeRadio.Text = "Sound Mode";
+            this.SoundModePracticeRadio.UseVisualStyleBackColor = true;
+            this.SoundModePracticeRadio.Click += new System.EventHandler(this.SoundModePracticeRadio_Click);
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
+            this.pictureBox5.Location = new System.Drawing.Point(87, 27);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(128, 134);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 40;
+            this.pictureBox5.TabStop = false;
+            // 
             // TactorModePracticeRadio
             // 
             this.TactorModePracticeRadio.AutoSize = true;
-            this.TactorModePracticeRadio.Location = new System.Drawing.Point(533, 222);
+            this.TactorModePracticeRadio.Location = new System.Drawing.Point(520, 216);
             this.TactorModePracticeRadio.Name = "TactorModePracticeRadio";
             this.TactorModePracticeRadio.Size = new System.Drawing.Size(86, 17);
             this.TactorModePracticeRadio.TabIndex = 39;
@@ -462,7 +516,7 @@
             // ColorModePracticeRadio
             // 
             this.ColorModePracticeRadio.AutoSize = true;
-            this.ColorModePracticeRadio.Location = new System.Drawing.Point(273, 216);
+            this.ColorModePracticeRadio.Location = new System.Drawing.Point(381, 216);
             this.ColorModePracticeRadio.Name = "ColorModePracticeRadio";
             this.ColorModePracticeRadio.Size = new System.Drawing.Size(79, 17);
             this.ColorModePracticeRadio.TabIndex = 38;
@@ -502,7 +556,7 @@
             // 
             this.PracticeImage.BackColor = System.Drawing.Color.Black;
             this.PracticeImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PracticeImage.Location = new System.Drawing.Point(224, 34);
+            this.PracticeImage.Location = new System.Drawing.Point(333, 27);
             this.PracticeImage.Name = "PracticeImage";
             this.PracticeImage.Size = new System.Drawing.Size(148, 134);
             this.PracticeImage.TabIndex = 35;
@@ -512,7 +566,7 @@
             // 
             this.TactorImgPractice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TactorImgPractice.Image = ((System.Drawing.Image)(resources.GetObject("TactorImgPractice.Image")));
-            this.TactorImgPractice.Location = new System.Drawing.Point(497, 34);
+            this.TactorImgPractice.Location = new System.Drawing.Point(606, 27);
             this.TactorImgPractice.Name = "TactorImgPractice";
             this.TactorImgPractice.Size = new System.Drawing.Size(128, 134);
             this.TactorImgPractice.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -532,7 +586,7 @@
             // PulseTactorPracticeButton
             // 
             this.PulseTactorPracticeButton.Enabled = false;
-            this.PulseTactorPracticeButton.Location = new System.Drawing.Point(523, 187);
+            this.PulseTactorPracticeButton.Location = new System.Drawing.Point(632, 180);
             this.PulseTactorPracticeButton.Name = "PulseTactorPracticeButton";
             this.PulseTactorPracticeButton.Size = new System.Drawing.Size(89, 29);
             this.PulseTactorPracticeButton.TabIndex = 32;
@@ -559,16 +613,18 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MultiModalMatchingForm_FormClosed);
             this.MatchingTab.ResumeLayout(false);
             this.MatchingTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ConfigureTab.ResumeLayout(false);
             this.ConfigureTab.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.InstructionsTab.ResumeLayout(false);
+            this.InstructionsTab.PerformLayout();
             this.PracticePanel.ResumeLayout(false);
             this.PracticePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PracticeImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TactorImgPractice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
@@ -586,7 +642,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.Button PulseTactor1Button;
+        private System.Windows.Forms.Button PulseTactorButton;
         private System.Windows.Forms.TabPage ConfigureTab;
         private System.Windows.Forms.Label ComPortLabel;
         private System.Windows.Forms.Label label5;
@@ -597,8 +653,7 @@
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.Button EnterButton;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label InstructionLabel;
         private System.Windows.Forms.Label FinishedLabel;
         private System.Windows.Forms.Label CountLabel;
         private System.Windows.Forms.Button ConnectButton;
@@ -607,7 +662,7 @@
         private System.Windows.Forms.TextBox comportselection;
         private System.Windows.Forms.TextBox ParticipantNumber;
         private System.Windows.Forms.Label NameLabel;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage InstructionsTab;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label FrequencyLabel;
         private System.Windows.Forms.Label GainLabel;
@@ -622,6 +677,11 @@
         private System.Windows.Forms.Label ImgIntensityPractice;
         private System.Windows.Forms.RadioButton TactorModePracticeRadio;
         private System.Windows.Forms.RadioButton ColorModePracticeRadio;
+        private System.Windows.Forms.Button PlaySoundButton;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.RadioButton SoundModePracticeRadio;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.Button PlaySoundPracticeButton;
 
     }
 }

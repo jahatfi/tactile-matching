@@ -28,28 +28,35 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using Microsoft.DirectX.AudioVideoPlayback;
+using IrrKlang;
 
 namespace TenPointMatching
 {
     public partial class TenPointMatchingForm : Form
     {
+        private bool fileLoaded = false;
+        private bool connected = false;
+
+        private bool soundPlayed = false;
+        private bool tactorPulsed = false;
         //Variables to pass to the tactor functions
         private int gain = 65;
-        private int frequency = 1250;
-        //According to the DirectX API (found at https://msdn.microsoft.com/en-us/library/windows/desktop/bb324235%28v=vs.85%29.aspx)
-        //the volume is on a scale of -10,000 - 0
-        private int volume;
+        private int frequency = 300;
+        private int color = 0;
+
+        //Irrklang documentation: http://www.ambiera.com/irrklang/docunet/index.html
+        //Volume is float between 0f and 1f
+        private float volume;
         private int ConnectedBoardID = -1;
         private int trials = 0;
         private int count = 0;
-        private int TrackBarMax;
+        private float trackValue;
+        private float max;
         private List<int> start_modality = new List<int>();
         private List<int> match_modality = new List<int>();
         private List<int> start_intensity = new List<int>();
         private string participant_name = "";
 
-        //private List<bool, int> configuration = new List<bool, int>();
         private List<int> results = new List<int>();
 
         //Determines which mode to use: tactile, visual, or auditory:
@@ -59,23 +66,25 @@ namespace TenPointMatching
         //Set a default value to avoid undefined behavior (See Meyer's text)
         private int mode = 0;
         private int match_mode = 0;
-        private Audio myAudio; 
+        //private Audio myAudio; 
+        private ISoundEngine mySoundEngine;
 
         public TenPointMatchingForm()
         {
             //SOUND CODE
-            //NOTE THAT THIS LINE TAKES A SHORT BIT TO EXECUTE - THE ERROR MESSAGE IS HARMLESS
-            myAudio = new Audio(@"C:/Users/Public/Documents/0.1.0.9.r25 API/tutorials/Windows/C#/Serial/chimes.wav", true);
+            mySoundEngine = new ISoundEngine();
+            mySoundEngine.Play2D("../chimes.wav");
 
+            //Visual Studio code - do not edit
             InitializeComponent();
-            //To initialize the TDKInterface we need to call InitializeTI before we use any
-            //of its functionality
+
+            //To initialize the TDKInterface we need to call InitializeTI before we use any of its functionality
             Console.AppendText("Initializing Tactor Interface...\n");
             CheckTDKErrors(Tdk.TdkInterface.InitializeTI());
+
+            //Make the other two tabs invisible for now
             this.tabControl1.TabPages.Remove(this.MatchingTab);
             this.tabControl1.TabPages.Remove(this.InstructionsTab);
-
-            Console.AppendText(myAudio.State.ToString() + "\n");
         }
 
         private void DiscoverButton_Click(object sender, EventArgs e)
@@ -113,8 +122,7 @@ namespace TenPointMatching
                 Console.AppendText("Discover Failed:\n");
                 Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString());
             }
-            
-
+     
         }
 
         private void ConnectButton_Click(object sender, EventArgs e)
@@ -140,6 +148,7 @@ namespace TenPointMatching
                     PulseTactorButton.Enabled = true;
                     discoverradio.Checked = true;
                     StartButton.Enabled = true;
+                    connected = true;
                 }
                 else
                 {
@@ -148,26 +157,24 @@ namespace TenPointMatching
             }
             else MessageBox.Show("Please select a Connection Mode!");
 
-            //Here we open the configuration file
         }
 
         private void PulseTactor1Button_Click(object sender, EventArgs e)
         {
-            NextButton.Enabled = true;
-            Console.AppendText("Pulse tactor 1\n");
-            //This sends a command to the tactor controller to pulse tactor 1 for 250 milliseconds
+            tactorPulsed = true;
+            //Enable the next button if neither the stimulus nor the match mode are "auditory",
+            //or if the sound has already been played
+            if (soundPlayed) NextButton.Enabled = true;
+            else if (mode != 2 && match_mode != 2) NextButton.Enabled = true; 
+         
             Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
             Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
             CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedBoardID, 1, 1000, 0));
             GainLabel.Text = "Gain:" + gain;
             FrequencyLabel.Text = "Frequency: " + frequency;
-
         }
 
-        private void ConsoleOutputRichTextBox(string msg)
-        {
-            Console.AppendText(msg);
-        }
+        private void ConsoleOutputRichTextBox(string msg)  { Console.AppendText(msg); }
 
         private void MultiModalMatchingForm_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -180,64 +187,90 @@ namespace TenPointMatching
         {
             //if a tdk method returns less then zero then we should display the last error
             //in the tdk interface
-            if (ret < 0)
-            {
-                //the GetLastEAIErrorString returns a string that represents the last error code
-                //recorded in the tdk interface.
-                Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString());
-            }
+            if (ret < 0) Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString());
+
         }
 
+        //This method hold the majority of the code.
         private void initialize()
         {
-            ++count;
+            //Disable labels and buttons and reset flags
+            NextButton.Enabled = false;
+            GainLabel.Visible = false;
+            FrequencyLabel.Visible = false;
+            PulseTactorButton.Enabled = false;
+            PlaySoundButton.Enabled = false;
+            soundPlayed = false;
+            tactorPulsed = false;
 
-            //This allows us to calculate the scale factor rather than hardcoding it
-            float trackValue = trackBar1.Value;
-            float max = trackBar1.Maximum;
+            //Image is black unless it's part of the test
+            pictureBox1.BackColor = Color.FromArgb(0, 0, 0);
 
-            int color = (int)((start_intensity[count] * 2.55));
-            pictureBox1.BackColor = Color.FromArgb(color, color, color);
-
-            PulseTactorButton.Enabled = true;
-            gain = 64;
-            frequency = 300;
-
+            //Update modes
             mode = start_modality[count];
             match_mode = match_modality[count];
+
             //Stimulus: Tactile
             if (mode == 0)
             {
+                //Enable buttons and labels
+                GainLabel.Visible = true;
+                FrequencyLabel.Visible = true;
+                PulseTactorButton.Enabled = true;
+
+                //Get the gain and freq.  start_intensity[] was populated from the config file.
                 gain = 64 + (int)((float)start_intensity[count] * 1.91);
                 frequency = 300 + (int)((float)start_intensity[count] * 32.5);
+                Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
+                Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
+
+                //Reset labels
                 GainLabel.Text = "Gain:" + gain;
                 FrequencyLabel.Text = "Frequency: " + frequency;
+
                 //Matching: Visual
                 if (match_mode == 1)
                 {
+                    color = (int)(trackValue / max * 255);
+                    pictureBox1.BackColor = Color.FromArgb(color, color, color);
                     InstructionLabel.Text = "Pick the intensity of the brightness which best corresponds to the intensity of the vibration.";
                 }
 
                 //Matching: Auditory
                 else if (match_mode == 2)
                 {
+                    volume = trackValue / max;
+                    mySoundEngine.SoundVolume = volume;
                     InstructionLabel.Text = "Pick the volume of sound which best corresponds to the intensity of the vibration.";
                     PlaySoundButton.Enabled = true;
+
                 }
             }
 
             //Stimulus: Visual
             if (mode == 1)
             {
+                color = (int)((start_intensity[count] * 2.55));
+                pictureBox1.BackColor = Color.FromArgb(color, color, color);
+
                 //Matching: Tactile
                 if (match_mode == 0)
                 {
+                    gain = (int)(64 + (trackValue / max) * 191);
+                    frequency = (int)(300 + (trackValue / max) * 2500);
+                    GainLabel.Text = "Gain:" + gain;
+                    FrequencyLabel.Text = "Frequency: " + frequency;
+                    PlaySoundButton.Enabled = false;
+                    GainLabel.Visible = true;
+                    FrequencyLabel.Visible = true;
                     InstructionLabel.Text = "Pick the intensity of the vibration which best corresponds to the brightness.";
                     PulseTactorButton.Enabled = true;
                 }
                 //Matching: Auditory
                 else if (match_mode == 2)
                 {
+                    volume = trackValue / max;
+                    mySoundEngine.SoundVolume = volume;
                     InstructionLabel.Text = "Pick the volume of sound which best corresponds to the brightness";
                     PlaySoundButton.Enabled = true;
                 }
@@ -245,15 +278,27 @@ namespace TenPointMatching
 
             //Stimulus: auditory
             if(mode == 2){
+                volume = (float)start_intensity[count] / 100f;
+                mySoundEngine.SoundVolume = volume;
+                PlaySoundButton.Enabled = true;
                 //Matching: tactile
                 if (match_mode == 0)
                 {
+                    GainLabel.Text = "Gain:" + gain;
+                    FrequencyLabel.Text = "Frequency: " + frequency;
+                    GainLabel.Visible = true;
+                    FrequencyLabel.Visible = true;
                     InstructionLabel.Text = "Pick the intensity of the vibration which best corresponds to the volume.";
                     PulseTactorButton.Enabled = true;
                 }
 
                 //Matching: Visual
-                else if (match_mode == 1) InstructionLabel.Text = "Pick the intensity of the brightness which best corresponds to the intensity of the vibration.";
+                else if (match_mode == 1)
+                {
+                    color = (int)(trackValue / max * 255);
+                    pictureBox1.BackColor = Color.FromArgb(color, color, color);
+                    InstructionLabel.Text = "Pick the intensity of the brightness which best corresponds to the volume.";
+                }
             }
         }
 
@@ -261,24 +306,32 @@ namespace TenPointMatching
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
 
-            float trackValue = trackBar1.Value;
+            trackValue = trackBar1.Value;
             //This allows us to calculate the scale factor rather than hardcoding it.
-            float max = trackBar1.Maximum;
 
-            if (mode == 0)
+            if (match_mode == 0)
             {
                 gain = (int)(64 + (trackValue / max) * 191);
                 //was 1250 + ... (not sure why)
                 frequency = (int)(300 + (trackValue / max) * 3250);
+                Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
+                Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
+                GainLabel.Text = "Gain:" + gain;
+                FrequencyLabel.Text = "Frequency: " + frequency;
             }
 
-            else if (mode == 1)
+            else if (match_mode == 1)
             {
                 int color = (int)(trackValue / max * 255);
                 pictureBox1.BackColor = Color.FromArgb(color, color, color);
             }
 
-            else if(mode == 2)  volume = (int)(100 * (trackValue / max) - 10000);
+            else if (match_mode == 2)
+            {
+                volume = trackValue / max;
+                mySoundEngine.SoundVolume = volume;
+                ImgIntensityPractice.Text = "Volume: " + (volume * 100).ToString() + '%';
+            }
 
             //GainLabel.Text = "Gain:" + gain;
             //FrequencyLabel.Text = "Frequency: " + frequency;
@@ -392,10 +445,11 @@ namespace TenPointMatching
                 }//else
                 //sr.Dispose();
             }//using
-            trials = start_intensity.Capacity;
+            trials = start_intensity.Count;
             Console.AppendText("trials: " + trials);
             StartButton.Enabled = true;
             FileName.Enabled = false;
+            fileLoaded = true;
 
         }//button3_Click
 
@@ -403,23 +457,25 @@ namespace TenPointMatching
         {
             if (ParticipantNumber.Text == "")
                 MessageBox.Show("Please enter a participant number to continue");
-            else if (EnterButton.Enabled == true)
+            else if (!fileLoaded)
                 MessageBox.Show("Please select a configuration file before continuing.");
-            else if (!(Int32.TryParse(TrackbarPrecision.Text, out TrackBarMax)))
+            else if(!connected)
+                MessageBox.Show("Please connect to the tactor board before continuing.");
+            else if (!(float.TryParse(TrackbarPrecision.Text, out max)))
             {
                 MessageBox.Show("Please enter a precision for the trackbar between 10 and 10,000.");
             }
-            else if ((TrackBarMax < 10) || (TrackBarMax > 10000))
+            else if ((max < 10) || (max > 10000))
                 MessageBox.Show("Please enter a valid number between 10 and 10000.");
             else
             {
-                trackBar1.Maximum = TrackBarMax;
+                trackBar1.Maximum = (int)max;
                 participant_name = ParticipantNumber.Text;
                 EnterButton.Enabled = false;
                 DiscoverButton.Enabled = false;
                 StartButton.Enabled = false;
                 tabControl1.SelectedIndex = 1;
-                CountLabel.Text = "Round " + (count + 1) + " of " + trials;
+                CountLabel.Text = "Trial " + (count + 1) + " of " + trials;
                 this.tabControl1.TabPages.Add(this.InstructionsTab);
                 this.tabControl1.TabPages.Remove(this.ConfigureTab);
             }
@@ -427,14 +483,17 @@ namespace TenPointMatching
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-            if (count == trials) ProcessResults();
+            count++;
 
+            if (count == trials) ProcessResults();
             else
             {
-                results.Add((int)(trackBar1.Value * 6.67));
+                float result = trackValue / max * 100f;
+                results.Add((int)result);
                 initialize();
-                CountLabel.Text = "Trial " + (count) + " of " + trials;
+                CountLabel.Text = "Trial " + (count + 1) + " of " + trials;
             }
+            if (count + 1 == trials) NextButton.Text = "Finish";
         }
 
         private void ProcessResults() {
@@ -447,11 +506,11 @@ namespace TenPointMatching
             NextButton.Visible = false;
             CountLabel.Visible = false;
             FinishedLabel.Visible = true;
-            results.Add((int)((float)trackBar1.Value * 6.67));
-            string path = @"C:\Users\jahatfi\Desktop\" + ParticipantNumber.Text + "Results.txt";
-            //FileStream file = File.Open(path, FileMode.Create);
+            pictureBox3.Visible = false;
+            PlaySoundButton.Visible = false;
 
-            //TextWriter tw = new StreamWriter(path);
+            results.Add((int)(trackValue / max * 100f));
+            string path = @"C:\Users\jahatfi\Desktop\" + ParticipantNumber.Text + "Results.txt";
 
             using (StreamWriter sw = new StreamWriter(path, true))
             {
@@ -479,12 +538,6 @@ namespace TenPointMatching
             }
         }
 
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Selected: " + trackBar1.Value );
-        }
-
         private void LetsGetStartedButton_Click(object sender, EventArgs e)
         {
             initialize();
@@ -502,6 +555,11 @@ namespace TenPointMatching
             FrequencyLabel.Text = "Frequency: " + frequency;
         }
 
+        private void PlaySoundPracticeButton_Click(object sender, EventArgs e)
+        {
+            mySoundEngine.Play2D("../chimes.wav");
+        }
+
         private void LetsGetStartedButton_Click_1(object sender, EventArgs e)
         {
             PracticePanel.Visible = false;
@@ -513,18 +571,19 @@ namespace TenPointMatching
 
         private void TactorModePracticeRadio_Click(object sender, EventArgs e)
         {
-            float trackValue = trackBar2.Value;
-            //This allows us to calculate the scale factor rather than hardcoding it.
-            float max = trackBar2.Maximum;
+            float intensity = ((float)trackBar2.Value / (float)trackBar2.Maximum);
+
+            PlaySoundPracticeButton.Enabled = false;
+            PulseTactorPracticeButton.Enabled = true;
+            
             //255 - 64 = 191
-            gain = (int)(64 + (trackValue / max) * 191);
+            gain = (int)(64 + intensity * 191);
             //was 1250 + ... (not sure why)
-            frequency = (int)(300 + (trackValue / max) * 2500);
+            frequency = (int)(300 + intensity * 2500);
 
             InstGainLabel.Text = "Gain:" + gain;
             InstFrequencyLabel.Text = "Frequency: " + frequency;
-            PulseTactorPracticeButton.Enabled = true;
-            PracticeImage.Enabled = false;
+
             InstGainLabel.Visible = true;
             InstFrequencyLabel.Visible = true;
             ImgIntensityPractice.Visible = false;
@@ -532,47 +591,81 @@ namespace TenPointMatching
 
         private void ColorModePracticeRadio_Click(object sender, EventArgs e)
         {
-            PracticeImage.Enabled = true;
+            int color = (int)((float)trackBar2.Value / (float)trackBar2.Maximum * 255);
+
             PulseTactorPracticeButton.Enabled = false;
+            PlaySoundPracticeButton.Enabled = false;
+
+            InstGainLabel.Visible = false;
+            InstFrequencyLabel.Visible = false;
+
+            PracticeImage.BackColor = Color.FromArgb(color, color, color);
+            ImgIntensityPractice.Text = "Image Color Intensity: " + color;
+            ImgIntensityPractice.Visible = true;
+        }
+
+        private void SoundModePracticeRadio_Click(object sender, EventArgs e)
+        {
+            float intensity = ((float)trackBar2.Value / (float)trackBar2.Maximum);
+
+            PlaySoundPracticeButton.Enabled = true;
+            PulseTactorPracticeButton.Enabled = false;
+
             InstGainLabel.Visible = false;
             InstFrequencyLabel.Visible = false;
             ImgIntensityPractice.Visible = true;
+            volume = trackBar2.Value / (float)trackBar2.Maximum;
+            mySoundEngine.SoundVolume= volume;
+            ImgIntensityPractice.Text = "Volume: " + (volume * 100).ToString() + '%';
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
-            float trackValue = trackBar2.Value;
+            float practiceTrackValue = trackBar2.Value;
             //This allows us to calculate the scale factor rather than hardcoding it.
-            float max = trackBar2.Maximum;
+            float practiceMax = trackBar2.Maximum;
 
             //IF TACTOR MODE IS SELECTED, USER CAN ONLY CHANGE THE INTENSITY OF VIBRATION ON THE TACTOR
             if (TactorModePracticeRadio.Checked)
             {
                 //255 - 64 = 191
-                gain = (int)(64 + (trackValue / max) * 191);
+                gain = (int)(64 + (practiceTrackValue / practiceMax) * 191);
                 //was 1250 + ... (not sure why)
-                frequency = (int)(300 + (trackValue / max) * 2500);
+                frequency = (int)(300 + (practiceTrackValue / practiceMax) * 2500);
 
                 InstGainLabel.Text = "Gain:" + gain;
                 InstFrequencyLabel.Text = "Frequency: " + frequency;
             }//TACTOR MODE
 
             //COLOR MODE: USER CAN ONLY CHANGE THE BRIGHTNESS OF THE IMAGE
-            else
+            else if (ColorModePracticeRadio.Checked)
             {
                 //RGB values are all equal for a greyscale color
                 //Scale up to 255 
-                int color = (int)(trackValue / max * 255);
+                int color = (int)(practiceTrackValue / practiceMax * 255);
                 PracticeImage.BackColor = Color.FromArgb(color, color, color);
                 ImgIntensityPractice.Text = "Image Color Intensity: " + color;
             }//COLOR MODE
+
+            else
+            {
+                volume = practiceTrackValue / practiceMax;
+                mySoundEngine.SoundVolume = volume;
+                ImgIntensityPractice.Text = "Volume: " + (volume * 100).ToString() + '%';
+
+            }
         }
 
-        private void MatchingTab_Click(object sender, EventArgs e)
+        private void PlaySoundButton_Click(object sender, EventArgs e)
         {
 
+            mySoundEngine.Play2D("../chimes.wav");
+            soundPlayed = true;
+
+            //Enable the next button if neither the stimulus nor the match mode are "tactile",
+            //or if the tactor has already been pulse
+            if (tactorPulsed) NextButton.Enabled = true;
+            else if (mode != 0 && match_mode != 0) NextButton.Enabled = true; 
         }
-
-
     }
 }

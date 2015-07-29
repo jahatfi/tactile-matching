@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="DiscoverController.exe" version="1.0.0.1" publicKeyToken="2e6aea78b1bbd676" language="neutral" processorArchitecture="x86" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="DiscoverController" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
+    <commandLine file="DiscoverController.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="4" minorVersion="10" buildNumber="0" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="2.0.50727.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DiscoverController.exe" size="6631424">
+      <assemblyIdentity name="DiscoverController" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>xhCgfbuqpJ013SFse++LG23YBBc=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="irrKlang.NET2.0.dll" size="491520">
+      <assemblyIdentity name="irrKlang.NET2.0" version="1.3.0.0" publicKeyToken="A854741BD80517C7" language="neutral" processorArchitecture="x86" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>A3smWObXtbh/Q2JJvuNLQLCeWGA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="DiscoverController.exe.config" size="117">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>a3Forh+i+nzyaONrpGeK7Sudu10=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=CAMPUS\jahatfi" issuerKeyHash="0919c01c5df29eb04458fc9915809453c3cff10d" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>jPsBItCQeZyggw/bzUnU6DiTUVw=</DigestValue></Reference></SignedInfo><SignatureValue>BGJjMSd6GY0EOVsqKGNy0EJ4kJk2e3NHNbx8d/w9/BEpXJpU+L3KKB+DU+3p/8Lq90fZebVtrUAaG+s3mqQMlkklkk88/DCylao6EIXdPUYNE24gWmwsugEGUQE/9+0CH3ZaXIq+D3YhPqy0UjQDE71ZUouDRUuhy6TBHV4lhws=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>qb3w6Ikc9yVpzkVROJHe3PBh32eNtj0tW9xqL3SxXEX++w6tOqMwiay1FlEzCcM5ReocsGogbWwdtqUqXIpCRP9lPyhizkDdCNfFR4P9EiyV5CLeHDt248XW2UridHAwQ1R008uNyqDQRIOq0DIhpzw1mJ9Pfg2NWuFscp6M2ek=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="5c519338e8d449cddb0f83a09c7990d02201fb8c" Description="" Url=""><as:assemblyIdentity name="DiscoverController.exe" version="1.0.0.1" publicKeyToken="2e6aea78b1bbd676" language="neutral" processorArchitecture="x86" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=CAMPUS\jahatfi</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>XMMrdSJlU077kKBqvTiJu54CKlU=</DigestValue></Reference></SignedInfo><SignatureValue>c8W1FKqqWrOCXS22B9ZEFbiaCiBcxCfVk38tWFoFOqAYFuMYLZVmbzSZZUcw8zG9kt4W/RVfQr9KU0dRWcLWOYD7nDaCx7huJh+sL3W0GMrYYalK4WAUDl9fY3RYZ9eg+crpyqKT1vagYmfw9NbwW1b1Z+Vp6xizMzXHEa1cx38=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>qb3w6Ikc9yVpzkVROJHe3PBh32eNtj0tW9xqL3SxXEX++w6tOqMwiay1FlEzCcM5ReocsGogbWwdtqUqXIpCRP9lPyhizkDdCNfFR4P9EiyV5CLeHDt248XW2UridHAwQ1R008uNyqDQRIOq0DIhpzw1mJ9Pfg2NWuFscp6M2ek=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB0TCCATqgAwIBAgIQJAnVFoj0JZdCL5wOHlHj5DANBgkqhkiG9w0BAQUFADAnMSUwIwYDVQQDHhwAQwBBAE0AUABVAFMAXABqAGEAaABhAHQAZgBpMB4XDTE1MDcyOTE2NTk1NFoXDTE2MDcyODIyNTk1NFowJzElMCMGA1UEAx4cAEMAQQBNAFAAVQBTAFwAagBhAGgAYQB0AGYAaTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAqb3w6Ikc9yVpzkVROJHe3PBh32eNtj0tW9xqL3SxXEX++w6tOqMwiay1FlEzCcM5ReocsGogbWwdtqUqXIpCRP9lPyhizkDdCNfFR4P9EiyV5CLeHDt248XW2UridHAwQ1R008uNyqDQRIOq0DIhpzw1mJ9Pfg2NWuFscp6M2ekCAwEAATANBgkqhkiG9w0BAQUFAAOBgQBuOmVSqPzwr1cty9/Z9IPhgLxUhlG8pn4CDqSLOAB8YKD1ZNJNa3yWuU7uvxp5f6zJMIYbMBZx4h/wWiwRJ53fobGZ9Zhub1HZ0Xaq4wMphaR9SHm/SvGpspzmJpB2mblQYw6NFw5Y1HRH7DZs3oXhDAiCiy6ppy939guy2Gki/Q==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

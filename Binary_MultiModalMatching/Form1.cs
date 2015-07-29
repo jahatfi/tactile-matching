@@ -29,7 +29,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 //using WMPLib;
-using Microsoft.DirectX.AudioVideoPlayback;
+//using Microsoft.DirectX.AudioVideoPlayback;
+using IrrKlang;
 
 
 
@@ -55,7 +56,10 @@ namespace Binary_MultiModalMatching
         private int frequency = 1250;
         //According to the DirectX API (found at https://msdn.microsoft.com/en-us/library/windows/desktop/bb324235%28v=vs.85%29.aspx)
         //the volume is on a scale of -10,000 - 0
-        private int volume;
+
+        //Irrklang documentation: http://www.ambiera.com/irrklang/docunet/index.html
+        //Volume is float between 0f and 1f
+        private float volume;
         private int ConnectedBoardID = -1;
         private int trials = 0;
         private int subtrial = 1;
@@ -78,14 +82,19 @@ namespace Binary_MultiModalMatching
         //Set a default value to avoid undefined behavior (See Meyer's text)
         private int mode = 0;
         private int match_mode = 0;
-        private Audio myAudio; 
+        //private Audio myAudio;  //For use with DirectX
+        ISoundEngine mySoundEngine;
 
         public Binary_MultiModalMatchingForm()
         {
             //SOUND CODE
             //NOTE THAT THIS LINE TAKES A SHORT BIT TO EXECUTE - THE ERROR MESSAGE IS HARMLESS
-            myAudio = new Audio(@"C:/Users/Public/Documents/0.1.0.9.r25 API/tutorials/Windows/C#/Serial/chimes.wav", true);
-            
+            //myAudio = new Audio(@"C:/Users/Public/Documents/0.1.0.9.r25 API/tutorials/Windows/C#/Serial/chimes.wav", true);
+
+            //Start up the irrklang engine
+            mySoundEngine = new ISoundEngine();
+
+            mySoundEngine.Play2D("../chimes.wav");
 
             //FOR USE WITH WMP - DISCOVERED WMP DOESN'T ALLOW VOLUME CONTROL
             //WMPLib.WindowsMediaPlayer soundPlayer = new WindowsMediaPlayer();
@@ -105,7 +114,7 @@ namespace Binary_MultiModalMatching
             //Console.AppendText(myAudio.CurrentPosition.ToString());
             //myAudio.Play();
             //myAudio.SeekCurrentPosition(0.0, SeekPositionFlags.AbsolutePositioning);
-            Console.AppendText(myAudio.State.ToString()+"\n");
+            //Console.AppendText(myAudio.State.ToString()+"\n");
         }
 
         private void DiscoverButton_Click(object sender, EventArgs e)
@@ -251,7 +260,7 @@ namespace Binary_MultiModalMatching
                 //Set all values to their minimum
                 gain = 64;
                 frequency = 300;
-                volume = -10000;
+                volume = 0;
                 //Radio Button 'A' will be selected initially
                 radioButtonA.Select();
                  
@@ -286,7 +295,7 @@ namespace Binary_MultiModalMatching
                     {
                         InstructionLabel.Text = "Pick the volume of sound which best corresponds to the intensity of the vibration.";
                         PlaySoundButton.Enabled = true;
-                        Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                        Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
                         Sound_Image_Intensity.Visible = true;
                     }
                 }
@@ -314,7 +323,7 @@ namespace Binary_MultiModalMatching
                     {
                         InstructionLabel.Text = "Pick the volume of sound which best corresponds to the brightness";
                         PlaySoundButton.Enabled = true;
-                        Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                        Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
                         Sound_Image_Intensity.Visible = true;
                     }
                 }
@@ -322,7 +331,7 @@ namespace Binary_MultiModalMatching
                 //Stimulus: Auditory
                 else if (match_mode == 2){
                     //Match mode: Tactile
-                    Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                    Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
                     Sound_Image_Intensity.Visible = true;
 
                     //Match Mode: Tactile
@@ -585,7 +594,7 @@ namespace Binary_MultiModalMatching
                 }
 
                 //Matching: Auditory
-                else if (match_mode == 2) volume = (100 * max) - 10000;
+                else if (match_mode == 2) volume = max / 100f;
             }
 
             //Stimulus: Visual
@@ -603,8 +612,8 @@ namespace Binary_MultiModalMatching
 
                 //Matching: Auditory
                 else if (match_mode == 2){
-                    volume = (100 * max) - 10000;
-                    Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                    volume = max / 100F;
+                    Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
                 }
             }
 
@@ -648,8 +657,8 @@ namespace Binary_MultiModalMatching
                 //Matching: Auditory
                 else if (match_mode == 2)
                 {
-                    volume = (100 * min) - 10000;
-                    Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                    volume = min / 100F;
+                    Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
                 }
             }
 
@@ -669,8 +678,8 @@ namespace Binary_MultiModalMatching
                 //Matching: Auditory
                 else if (match_mode == 2)
                 {
-                    volume = (100 * min) - 10000;
-                    Sound_Image_Intensity.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                    volume = min / 100F;
+                    Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
                 }
             }
 
@@ -687,7 +696,7 @@ namespace Binary_MultiModalMatching
                     FrequencyLabel.Text = "Frequency: " + frequency;
                 }
 
-                                //Matching: Visual
+                //Matching: Visual
                 else if (match_mode == 1)
                 {
                     color = (int)(min * 2.55);
@@ -727,8 +736,8 @@ namespace Binary_MultiModalMatching
             // v should probaly just be an else{}
             else if (SoundModePracticeRadio.Checked)
             {
-                volume = (int)((trackValue / maxTrackValue) * 10000 - 10000);
-                ImgIntensityPractice.Text = "Volume: " + ((volume + 10000) / 100).ToString() + '%';
+                volume = (trackValue / maxTrackValue);
+                ImgIntensityPractice.Text = "Volume: " + (volume * 100).ToString() + '%';
                 //ImgIntensityPractice.Text = "Volume :"  + volume.ToString();
             }
         }
@@ -747,8 +756,8 @@ namespace Binary_MultiModalMatching
         private void PlaySoundPracticeButton_Click(object sender, EventArgs e)
         {
             //Remember: the volume is on a scale of -10,000 - 0
-            myAudio.Volume = volume;
-            myAudio.SeekCurrentPosition(0.0, SeekPositionFlags.AbsolutePositioning);
+            mySoundEngine.SoundVolume = volume;
+            mySoundEngine.Play2D("../chimes.wav");
         }
 
         private void TactorModePracticeRadio_Click(object sender, EventArgs e)
@@ -817,8 +826,8 @@ namespace Binary_MultiModalMatching
                 MessageBox.Show("You must select A or B to continue.");
                 return;
             }
-            myAudio.Volume = volume;
-            myAudio.SeekCurrentPosition(0.0, SeekPositionFlags.AbsolutePositioning);
+            mySoundEngine.SoundVolume = volume;
+            mySoundEngine.Play2D("../chimes.wav");
 
             soundPlayed = true;
 

@@ -65,8 +65,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.InstructionsTab = new System.Windows.Forms.TabPage();
             this.PracticePanel = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.SoundModePracticeRadio = new System.Windows.Forms.RadioButton();
+            this.PlaySoundPracticeButton = new System.Windows.Forms.Button();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.ImgIntensityPractice = new System.Windows.Forms.Label();
             this.InstFrequencyLabel = new System.Windows.Forms.Label();
@@ -119,7 +119,6 @@
             this.MatchingTab.Size = new System.Drawing.Size(924, 552);
             this.MatchingTab.TabIndex = 2;
             this.MatchingTab.Text = "Matching";
-            this.MatchingTab.Click += new System.EventHandler(this.MatchingTab_Click);
             // 
             // PlaySoundButton
             // 
@@ -130,6 +129,7 @@
             this.PlaySoundButton.TabIndex = 44;
             this.PlaySoundButton.Text = "Play Sound";
             this.PlaySoundButton.UseVisualStyleBackColor = true;
+            this.PlaySoundButton.Click += new System.EventHandler(this.PlaySoundButton_Click);
             // 
             // pictureBox3
             // 
@@ -171,11 +171,13 @@
             // FinishedLabel
             // 
             this.FinishedLabel.AutoSize = true;
-            this.FinishedLabel.Location = new System.Drawing.Point(365, 56);
+            this.FinishedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FinishedLabel.Location = new System.Drawing.Point(228, 209);
             this.FinishedLabel.Name = "FinishedLabel";
-            this.FinishedLabel.Size = new System.Drawing.Size(169, 13);
+            this.FinishedLabel.Size = new System.Drawing.Size(468, 80);
             this.FinishedLabel.TabIndex = 39;
-            this.FinishedLabel.Text = "Finished!  Thanks for participating!";
+            this.FinishedLabel.Text = "Finished!  Thanks for participating!\r\n\r\nNote to experimentor: The results file is" +
+                " stored on James\' desktop\r\nunder the name <Participant#>Results.txt";
             this.FinishedLabel.Visible = false;
             // 
             // InstructionLabel
@@ -247,7 +249,7 @@
             // trackBar1
             // 
             this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(15, 295);
+            this.trackBar1.Location = new System.Drawing.Point(27, 311);
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(894, 45);
             this.trackBar1.TabIndex = 29;
@@ -260,7 +262,7 @@
             this.PulseTactorButton.Name = "PulseTactorButton";
             this.PulseTactorButton.Size = new System.Drawing.Size(89, 29);
             this.PulseTactorButton.TabIndex = 28;
-            this.PulseTactorButton.Text = "Pulse Tactor 1";
+            this.PulseTactorButton.Text = "Pulse Tactor";
             this.PulseTactorButton.UseVisualStyleBackColor = true;
             this.PulseTactorButton.Click += new System.EventHandler(this.PulseTactor1Button_Click);
             // 
@@ -386,9 +388,10 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(385, 41);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(216, 13);
+            this.label5.Size = new System.Drawing.Size(216, 26);
             this.label5.TabIndex = 43;
-            this.label5.Text = "Enter the name of the configuration file here:";
+            this.label5.Text = "Enter the name of the configuration file here:\r\n(Note: it must be placed on James" +
+                "\' desktop)";
             // 
             // Console
             // 
@@ -461,8 +464,8 @@
             // 
             // PracticePanel
             // 
-            this.PracticePanel.Controls.Add(this.button1);
-            this.PracticePanel.Controls.Add(this.radioButton1);
+            this.PracticePanel.Controls.Add(this.SoundModePracticeRadio);
+            this.PracticePanel.Controls.Add(this.PlaySoundPracticeButton);
             this.PracticePanel.Controls.Add(this.pictureBox5);
             this.PracticePanel.Controls.Add(this.ImgIntensityPractice);
             this.PracticePanel.Controls.Add(this.InstFrequencyLabel);
@@ -474,30 +477,34 @@
             this.PracticePanel.Controls.Add(this.PracticeImage);
             this.PracticePanel.Controls.Add(this.pictureBox4);
             this.PracticePanel.Controls.Add(this.PulseTactorPracticeButton);
-            this.PracticePanel.Location = new System.Drawing.Point(21, 138);
+            this.PracticePanel.Location = new System.Drawing.Point(21, 179);
             this.PracticePanel.Name = "PracticePanel";
-            this.PracticePanel.Size = new System.Drawing.Size(875, 397);
+            this.PracticePanel.Size = new System.Drawing.Size(875, 356);
             this.PracticePanel.TabIndex = 48;
             // 
-            // button1
+            // SoundModePracticeRadio
             // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(170, 184);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(89, 29);
-            this.button1.TabIndex = 58;
-            this.button1.Text = "Pulse Tactor";
-            this.button1.UseVisualStyleBackColor = true;
+            this.SoundModePracticeRadio.AutoSize = true;
+            this.SoundModePracticeRadio.Location = new System.Drawing.Point(240, 229);
+            this.SoundModePracticeRadio.Name = "SoundModePracticeRadio";
+            this.SoundModePracticeRadio.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.SoundModePracticeRadio.Size = new System.Drawing.Size(86, 17);
+            this.SoundModePracticeRadio.TabIndex = 59;
+            this.SoundModePracticeRadio.TabStop = true;
+            this.SoundModePracticeRadio.Text = "Sound Mode";
+            this.SoundModePracticeRadio.UseVisualStyleBackColor = true;
+            this.SoundModePracticeRadio.Click += new System.EventHandler(this.SoundModePracticeRadio_Click);
             // 
-            // radioButton1
+            // PlaySoundPracticeButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(199, 229);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(86, 17);
-            this.radioButton1.TabIndex = 57;
-            this.radioButton1.Text = "Sound Mode";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.PlaySoundPracticeButton.Enabled = false;
+            this.PlaySoundPracticeButton.Location = new System.Drawing.Point(170, 184);
+            this.PlaySoundPracticeButton.Name = "PlaySoundPracticeButton";
+            this.PlaySoundPracticeButton.Size = new System.Drawing.Size(89, 29);
+            this.PlaySoundPracticeButton.TabIndex = 58;
+            this.PlaySoundPracticeButton.Text = "Play Sound";
+            this.PlaySoundPracticeButton.UseVisualStyleBackColor = true;
+            this.PlaySoundPracticeButton.Click += new System.EventHandler(this.PlaySoundPracticeButton_Click);
             // 
             // pictureBox5
             // 
@@ -515,9 +522,9 @@
             this.ImgIntensityPractice.AutoSize = true;
             this.ImgIntensityPractice.Location = new System.Drawing.Point(629, 278);
             this.ImgIntensityPractice.Name = "ImgIntensityPractice";
-            this.ImgIntensityPractice.Size = new System.Drawing.Size(108, 13);
+            this.ImgIntensityPractice.Size = new System.Drawing.Size(117, 13);
             this.ImgIntensityPractice.TabIndex = 55;
-            this.ImgIntensityPractice.Text = "Image Color Intensity:";
+            this.ImgIntensityPractice.Text = "Image Color Intensity: 0";
             // 
             // InstFrequencyLabel
             // 
@@ -625,9 +632,10 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 18);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(18, 14);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(803, 104);
+            this.label3.Size = new System.Drawing.Size(656, 135);
             this.label3.TabIndex = 0;
             this.label3.Text = resources.GetString("label3.Text");
             // 
@@ -710,9 +718,9 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button PlaySoundButton;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button PlaySoundPracticeButton;
+        private System.Windows.Forms.RadioButton SoundModePracticeRadio;
 
     }
 }

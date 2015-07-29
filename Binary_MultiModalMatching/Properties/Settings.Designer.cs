@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Binary_MultiModalMatching.Properties {
+namespace MultiModalMatching.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
