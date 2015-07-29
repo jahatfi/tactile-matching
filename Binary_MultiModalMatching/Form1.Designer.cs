@@ -30,12 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Binary_MultiModalMatchingForm));
             this.MatchingTab = new System.Windows.Forms.TabPage();
+            this.Sound_Image_Intensity = new System.Windows.Forms.Label();
             this.PlaySoundButton = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.SubCountLabel = new System.Windows.Forms.Label();
             this.radioButtonB = new System.Windows.Forms.RadioButton();
             this.radioButtonA = new System.Windows.Forms.RadioButton();
             this.FrequencyLabel = new System.Windows.Forms.Label();
             this.GainLabel = new System.Windows.Forms.Label();
+            this.CountLabel = new System.Windows.Forms.Label();
             this.FinishedLabel = new System.Windows.Forms.Label();
             this.InstructionLabel = new System.Windows.Forms.Label();
             this.NextButton = new System.Windows.Forms.Button();
@@ -78,9 +81,6 @@
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.PulseTactorPracticeButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.SubCountLabel = new System.Windows.Forms.Label();
-            this.CountLabel = new System.Windows.Forms.Label();
-            this.Sound_Image_Intensity = new System.Windows.Forms.Label();
             this.MatchingTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -121,6 +121,15 @@
             this.MatchingTab.TabIndex = 2;
             this.MatchingTab.Text = "Matching";
             // 
+            // Sound_Image_Intensity
+            // 
+            this.Sound_Image_Intensity.AutoSize = true;
+            this.Sound_Image_Intensity.Location = new System.Drawing.Point(365, 472);
+            this.Sound_Image_Intensity.Name = "Sound_Image_Intensity";
+            this.Sound_Image_Intensity.Size = new System.Drawing.Size(45, 13);
+            this.Sound_Image_Intensity.TabIndex = 48;
+            this.Sound_Image_Intensity.Text = "Volume:";
+            // 
             // PlaySoundButton
             // 
             this.PlaySoundButton.Enabled = false;
@@ -145,6 +154,14 @@
             this.pictureBox3.TabIndex = 46;
             this.pictureBox3.TabStop = false;
             // 
+            // SubCountLabel
+            // 
+            this.SubCountLabel.AutoSize = true;
+            this.SubCountLabel.Location = new System.Drawing.Point(253, 433);
+            this.SubCountLabel.Name = "SubCountLabel";
+            this.SubCountLabel.Size = new System.Drawing.Size(0, 13);
+            this.SubCountLabel.TabIndex = 45;
+            // 
             // radioButtonB
             // 
             this.radioButtonB.AutoSize = true;
@@ -160,7 +177,7 @@
             // radioButtonA
             // 
             this.radioButtonA.AutoSize = true;
-            this.radioButtonA.Location = new System.Drawing.Point(368, 297);
+            this.radioButtonA.Location = new System.Drawing.Point(370, 297);
             this.radioButtonA.Name = "radioButtonA";
             this.radioButtonA.Size = new System.Drawing.Size(32, 17);
             this.radioButtonA.TabIndex = 43;
@@ -187,6 +204,14 @@
             this.GainLabel.TabIndex = 41;
             this.GainLabel.Text = "Gain:";
             // 
+            // CountLabel
+            // 
+            this.CountLabel.AutoSize = true;
+            this.CountLabel.Location = new System.Drawing.Point(256, 400);
+            this.CountLabel.Name = "CountLabel";
+            this.CountLabel.Size = new System.Drawing.Size(0, 13);
+            this.CountLabel.TabIndex = 40;
+            // 
             // FinishedLabel
             // 
             this.FinishedLabel.AutoSize = true;
@@ -203,10 +228,9 @@
             this.InstructionLabel.AutoSize = true;
             this.InstructionLabel.Location = new System.Drawing.Point(253, 338);
             this.InstructionLabel.Name = "InstructionLabel";
-            this.InstructionLabel.Size = new System.Drawing.Size(433, 13);
+            this.InstructionLabel.Size = new System.Drawing.Size(99, 13);
             this.InstructionLabel.TabIndex = 38;
-            this.InstructionLabel.Text = "Pick the intensity of the brightness  which best corrosponds to the intensity of " +
-                "the vibration.";
+            this.InstructionLabel.Text = "Pick the intensity ...";
             this.InstructionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // NextButton
@@ -356,7 +380,7 @@
             this.comportselection.Name = "comportselection";
             this.comportselection.Size = new System.Drawing.Size(204, 20);
             this.comportselection.TabIndex = 46;
-            this.comportselection.Text = "COM3";
+            this.comportselection.Text = "COM4";
             // 
             // ConnectButton
             // 
@@ -629,31 +653,6 @@
             this.label3.Size = new System.Drawing.Size(803, 104);
             this.label3.TabIndex = 0;
             this.label3.Text = resources.GetString("label3.Text");
-            // 
-            // SubCountLabel
-            // 
-            this.SubCountLabel.AutoSize = true;
-            this.SubCountLabel.Location = new System.Drawing.Point(253, 433);
-            this.SubCountLabel.Name = "SubCountLabel";
-            this.SubCountLabel.Size = new System.Drawing.Size(0, 13);
-            this.SubCountLabel.TabIndex = 45;
-            // 
-            // CountLabel
-            // 
-            this.CountLabel.AutoSize = true;
-            this.CountLabel.Location = new System.Drawing.Point(256, 400);
-            this.CountLabel.Name = "CountLabel";
-            this.CountLabel.Size = new System.Drawing.Size(0, 13);
-            this.CountLabel.TabIndex = 40;
-            // 
-            // Sound_Image_Intensity
-            // 
-            this.Sound_Image_Intensity.AutoSize = true;
-            this.Sound_Image_Intensity.Location = new System.Drawing.Point(365, 472);
-            this.Sound_Image_Intensity.Name = "Sound_Image_Intensity";
-            this.Sound_Image_Intensity.Size = new System.Drawing.Size(45, 13);
-            this.Sound_Image_Intensity.TabIndex = 48;
-            this.Sound_Image_Intensity.Text = "Volume:";
             // 
             // Binary_MultiModalMatchingForm
             // 
