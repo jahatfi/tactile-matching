@@ -129,6 +129,7 @@
             this.Sound_Image_Intensity.Size = new System.Drawing.Size(45, 13);
             this.Sound_Image_Intensity.TabIndex = 48;
             this.Sound_Image_Intensity.Text = "Volume:";
+            this.Sound_Image_Intensity.Visible = false;
             // 
             // PlaySoundButton
             // 
@@ -194,6 +195,7 @@
             this.FrequencyLabel.Size = new System.Drawing.Size(63, 13);
             this.FrequencyLabel.TabIndex = 42;
             this.FrequencyLabel.Text = "Frequency: ";
+            this.FrequencyLabel.Visible = false;
             // 
             // GainLabel
             // 
@@ -203,6 +205,7 @@
             this.GainLabel.Size = new System.Drawing.Size(32, 13);
             this.GainLabel.TabIndex = 41;
             this.GainLabel.Text = "Gain:";
+            this.GainLabel.Visible = false;
             // 
             // CountLabel
             // 

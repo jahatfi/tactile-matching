@@ -49,6 +49,8 @@ namespace Binary_MultiModalMatching
 {
     public partial class Binary_MultiModalMatchingForm : Form
     {
+        private bool connected = false;
+        private bool fileLoaded = false;
         private bool soundPlayed = false;
         private bool tactorPulsed = false;
         //Variables to pass to the tactor functions
@@ -186,6 +188,8 @@ namespace Binary_MultiModalMatching
                     PulseTactor1Button.Enabled = true;
                     ConnectButton.Enabled = false;
                     Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
+                    connected = true;
+                    if (fileLoaded) StartButton.Enabled = true;
 
                     //discoverradio.Checked = true;
                 }
@@ -219,7 +223,7 @@ namespace Binary_MultiModalMatching
             //Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
             Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
             CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedBoardID, 1, 1000, 0));
-            GainLabel.Text = "Gain:" + gain;
+            //GainLabel.Text = "Gain:" + gain;
             //FrequencyLabel.Text = "Frequency: " + frequency;
 
         }
@@ -273,9 +277,9 @@ namespace Binary_MultiModalMatching
                 PulseTactor1Button.Enabled = false;
                 PlaySoundButton.Enabled = false;
                 pictureBox1.BackColor = Color.FromArgb(0,0,0);
-                GainLabel.Visible = false;
-                FrequencyLabel.Visible = false;
-                Sound_Image_Intensity.Visible = false;
+                //GainLabel.Visible = false;
+                //FrequencyLabel.Visible = false;
+                //Sound_Image_Intensity.Visible = false;
 
                 //Stimulus: Tactile
                 if (mode == 0)
@@ -283,10 +287,10 @@ namespace Binary_MultiModalMatching
                     gain = (int)(1 + (float)(start_intensity[count] * 2.54));
                     //frequency = (int)(300 + (float)(start_intensity[count] * 22));
                     PulseTactor1Button.Enabled = true;
-                    GainLabel.Text = "Gain:" + gain;
+                    //GainLabel.Text = "Gain:" + gain;
                     //FrequencyLabel.Text = "Frequency: " + frequency;
-                    GainLabel.Visible =  true;
-                    FrequencyLabel.Visible = true;
+                    //GainLabel.Visible =  true;
+                    //FrequencyLabel.Visible = true;
 
                     //Match mode: Visual
                     if (match_mode == 1)
@@ -299,8 +303,8 @@ namespace Binary_MultiModalMatching
                     {
                         InstructionLabel.Text = "Pick the volume of sound which best corresponds to the intensity of the vibration.";
                         PlaySoundButton.Enabled = true;
-                        Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
-                        Sound_Image_Intensity.Visible = true;
+                        //Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
+                        //Sound_Image_Intensity.Visible = true;
                     }
                 }
 
@@ -316,9 +320,9 @@ namespace Binary_MultiModalMatching
                         InstructionLabel.Text = "Pick the intensity of the vibration which best corresponds to the brightness.";
                         PulseTactor1Button.Enabled = true;
 
-                        GainLabel.Text = "Gain:" + gain;
+                        //GainLabel.Text = "Gain:" + gain;
                         //FrequencyLabel.Text = "Frequency: " + frequency;
-                        GainLabel.Visible = true;
+                        //GainLabel.Visible = true;
                         //FrequencyLabel.Visible = true;
                     }
 
@@ -327,8 +331,8 @@ namespace Binary_MultiModalMatching
                     {
                         InstructionLabel.Text = "Pick the volume of sound which best corresponds to the brightness";
                         PlaySoundButton.Enabled = true;
-                        Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
-                        Sound_Image_Intensity.Visible = true;
+                        //Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
+                        //Sound_Image_Intensity.Visible = true;
                     }
                 }
 
@@ -337,8 +341,8 @@ namespace Binary_MultiModalMatching
                     PlaySoundButton.Enabled = true;
                     volume = (float) start_intensity[count] / 100f;
 
-                    Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
-                    Sound_Image_Intensity.Visible = true;
+                    //Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
+                    //Sound_Image_Intensity.Visible = true;
 
                     //Match Mode: Tactile
                     if (match_mode == 0)
@@ -346,10 +350,10 @@ namespace Binary_MultiModalMatching
                         InstructionLabel.Text = "Pick the intensity of the vibration which best corresponds to the volume.";
                         PulseTactor1Button.Enabled = true;
 
-                        GainLabel.Text = "Gain:" + gain;
+                        //GainLabel.Text = "Gain:" + gain;
                         //FrequencyLabel.Text = "Frequency: " + frequency;
-                        GainLabel.Visible = true;
-                        FrequencyLabel.Visible = true;
+                        //GainLabel.Visible = true;
+                        //FrequencyLabel.Visible = true;
                     }
 
                     //Match mode: Visual
@@ -394,7 +398,7 @@ namespace Binary_MultiModalMatching
                 }
                 else
                 {
-                    while ((s = sr.ReadLine()) != null)
+                    while ((s = sr.ReadLine()) != null && s != "")
                     {
                         //Get the modality
                         string[] words = s.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
@@ -479,9 +483,10 @@ namespace Binary_MultiModalMatching
                 //sr.Dispose();
             }//using
             trials = start_intensity.Count;
-            Console.AppendText("trials: " + trials);
-            StartButton.Enabled = true;
+            Console.AppendText("trials: " + trials);           
             FileName.Enabled = false;
+            fileLoaded = true;
+            if (connected) StartButton.Enabled = true;
 
         }//button3_Click
 
@@ -530,6 +535,8 @@ namespace Binary_MultiModalMatching
                 subtrial++;
                 SubCountLabel.Text = "Subtrial " + (subtrial) + " of " + subtrials;
                 NextButton.Enabled = false;
+                tactorPulsed = false;
+                soundPlayed = false;
             }
 
             //This means we just completed a subtrial.  Store the result, increment the count, and check to see if we're done.
@@ -556,8 +563,8 @@ namespace Binary_MultiModalMatching
 
 
         private void ProcessResults(){
-            GainLabel.Visible = false;
-            FrequencyLabel.Visible = false;
+            //GainLabel.Visible = false;
+            //FrequencyLabel.Visible = false;
             NextButton.Enabled = false;
             pictureBox1.Visible = false;
             pictureBox2.Visible = false;
@@ -603,7 +610,7 @@ namespace Binary_MultiModalMatching
             {
                 gain = (int)(1 + (float)(max * 2.54));
                 //frequency = (int)(300 + (float)(max * 22));
-                GainLabel.Text = "Gain:" + gain;
+                //GainLabel.Text = "Gain:" + gain;
                 //FrequencyLabel.Text = "Frequency: " + frequency;
             }
 
@@ -618,7 +625,7 @@ namespace Binary_MultiModalMatching
             else if (match_mode == 2)
             {
                 volume = (float)max / 100f;
-                Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
+                //Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
             }
         }
 
@@ -629,7 +636,7 @@ namespace Binary_MultiModalMatching
             {
                 gain = (int)(1 + (float)(min * 2.54));
                 //frequency = (int)(300 + (float)(min * 22));
-                GainLabel.Text = "Gain:" + gain;
+                //GainLabel.Text = "Gain:" + gain;
                 //FrequencyLabel.Text = "Frequency: " + frequency;
             }
 
@@ -644,7 +651,7 @@ namespace Binary_MultiModalMatching
             else if (match_mode == 2)
             {
                 volume = min / 100F;
-                Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
+                //Sound_Image_Intensity.Text = "Volume: " + (volume * 100).ToString() + '%';
             }               
         }//radioButtonA_Click()
                     
@@ -661,8 +668,8 @@ namespace Binary_MultiModalMatching
                 //was 1250 + ... (not sure why)
                 //frequency = (int)(300 + (trackValue / maxTrackValue) * 2200);
 
-                InstGainLabel.Text = "Gain:" + gain;
-                InstFrequencyLabel.Text = "Frequency: " + frequency;
+                //InstGainLabel.Text = "Gain:" + gain;
+                //InstFrequencyLabel.Text = "Frequency: " + frequency;
             }//TACTOR MODE
 
             //COLOR MODE: USER CAN ONLY CHANGE THE BRIGHTNESS OF THE IMAGE
@@ -690,8 +697,8 @@ namespace Binary_MultiModalMatching
             //Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
             Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
             CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedBoardID, 1, 1000, 0));
-            GainLabel.Text = "Gain:" + gain;
-            FrequencyLabel.Text = "Frequency: " + frequency;
+            //GainLabel.Text = "Gain:" + gain;
+            //FrequencyLabel.Text = "Frequency: " + frequency;
 
         }
 
@@ -710,14 +717,14 @@ namespace Binary_MultiModalMatching
             //was 1250 + ... (not sure why)
             //Max out frequency at 2500
             //frequency = (int)(300 + (trackValue / practiceTrackbar.Maximum) * 2200);
-            InstGainLabel.Text = "Gain:" + gain;
-            InstFrequencyLabel.Text = "Frequency: " + frequency;
+            //InstGainLabel.Text = "Gain:" + gain;
+            //InstFrequencyLabel.Text = "Frequency: " + frequency;
 
             PulseTactorPracticeButton.Enabled = true;
             PlaySoundPracticeButton.Enabled = false;
             PracticeImage.Enabled = false;
-            InstGainLabel.Visible = true;
-            InstFrequencyLabel.Visible = true;
+            //InstGainLabel.Visible = true;
+            //InstFrequencyLabel.Visible = true;
             ImgIntensityPractice.Visible = false;
         }
 
@@ -731,21 +738,21 @@ namespace Binary_MultiModalMatching
             PracticeImage.Enabled = true;
             PulseTactorPracticeButton.Enabled = false;
             PlaySoundPracticeButton.Enabled = false;
-            InstGainLabel.Visible = false;
-            InstFrequencyLabel.Visible = false;
+            //InstGainLabel.Visible = false;
+            //InstFrequencyLabel.Visible = false;
             ImgIntensityPractice.Visible = true;
         }
 
         private void SoundModePracticeRadio_Click(object sender, EventArgs e)
         {
             trackValue = practiceTrackbar.Value;
-            volume = (int)((trackValue / practiceTrackbar.Maximum) * 10000 - 10000);
+            volume = trackValue / (float)practiceTrackbar.Maximum;
 
             PlaySoundPracticeButton.Enabled = true;
             PulseTactorPracticeButton.Enabled = false;
-            InstGainLabel.Visible = false;
-            InstFrequencyLabel.Visible = false;
-            ImgIntensityPractice.Text = "Volume: " + ((volume + 10000)/100).ToString() + '%';
+            //InstGainLabel.Visible = false;
+            //InstFrequencyLabel.Visible = false;
+            ImgIntensityPractice.Text = "Volume: " + (volume * 100) + '%';
 
             ImgIntensityPractice.Visible = true;
         }
@@ -756,7 +763,7 @@ namespace Binary_MultiModalMatching
             this.MainPanel.TabPages.Remove(this.Instructions);
             this.MainPanel.TabPages.Add(this.MatchingTab);
             this.MainPanel.TabPages.Add(this.Instructions);
-            FrequencyLabel.Text = "Frequency : " + frequency.ToString();
+            //FrequencyLabel.Text = "Frequency : " + frequency.ToString();
             Initialize();
         }
 
@@ -779,6 +786,5 @@ namespace Binary_MultiModalMatching
             else if (mode != 0 && match_mode != 0) NextButton.Enabled = true;  
 
         }
-
     }
 }
