@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DiscoverController.exe" size="6631424">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DiscoverController.exe" size="6630400">
       <assemblyIdentity name="DiscoverController" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Qnh8/vfdGiSzehgaulCxuFnM1QI=</dsig:DigestValue>
+        <dsig:DigestValue>AYNiBHGpp+cpKvg1w93QpTvAhZ0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -41,8 +41,8 @@ namespace InfinitePrecisionMatching
         private bool tactorPulsed = false;
 
         //Variables to pass to the tactor functions 
-        private int gain = 65;
-        private int frequency = 300;
+        private int gain = 1;
+        private int frequency = 2500;
         private int color = 0;
 
         //Irrklang documentation: http://www.ambiera.com/irrklang/docunet/index.html
@@ -79,7 +79,7 @@ namespace InfinitePrecisionMatching
             InitializeComponent();
             //To initialize the TDKInterface we need to call InitializeTI before we use any
             //of its functionality
-            Console.AppendText("InitializeTI\n");
+            Console.AppendText("Initializing Tactor Interface.\n");
             CheckTDKErrors(Tdk.TdkInterface.InitializeTI());
             //this.tabControl1.TabPages.Remove(this.MatchingTab);
             //this.tabControl1.TabPages.Remove(this.tabPage1);
@@ -107,7 +107,7 @@ namespace InfinitePrecisionMatching
                         ComPortComboBox.Items.Add(sComName);
                     }
                     else
-                        Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString());
+                        Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString()+"\n");
                 }
                 ComPortComboBox.SelectedIndex = 0;
                 DiscoverButton.Enabled = false;
@@ -118,7 +118,7 @@ namespace InfinitePrecisionMatching
             else
             {
                 Console.AppendText("Discover Failed:\n");
-                Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString());
+                Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString()+"\n");
             }
 
 
@@ -133,7 +133,7 @@ namespace InfinitePrecisionMatching
                     selectedComPort = ComPortComboBox.SelectedItem.ToString();
                 else selectedComPort = comportselection.Text;
 
-                Console.AppendText("\nConnecting to com port " + selectedComPort + "\n");
+                Console.AppendText("Attempting to connect to com port " + selectedComPort + "...\n");
                 //Connect connects to the tactor controller via serial with the given name
                 //we should be hooking up a response callback but for simplicity of the 
                 //tutorial we wont be. Reference the ResponseCallback tutorial for more information
@@ -142,16 +142,17 @@ namespace InfinitePrecisionMatching
                                                     System.IntPtr.Zero);
                 if (ret >= 0)
                 {
+                    ConnectButton.Enabled = false;
                     ConnectedBoardID = ret;
                     DiscoverButton.Enabled = false;
                     PulseTactorButton.Enabled = true;
-                    discoverradio.Checked = true;
                     StartButton.Enabled = true;
                     connected = true;
+                    Console.AppendText("Success!\n");
                 }
                 else
                 {
-                    Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString());
+                    Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString()+"\n");
                 }
             }
             else MessageBox.Show("Please select a Connection Mode!");
@@ -170,8 +171,8 @@ namespace InfinitePrecisionMatching
             Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
             Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
             CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedBoardID, 1, 1000, 0));
-            GainLabel.Text = "Gain:" + gain;
-            FrequencyLabel.Text = "Frequency: " + frequency;
+            //GainLabel.Text = "Gain:" + gain;
+            //FrequencyLabel.Text = "Frequency: " + frequency;
 
         }
 
@@ -191,7 +192,7 @@ namespace InfinitePrecisionMatching
         {
             //if a tdk method returns less then zero then we should display the last error
             //in the tdk interface
-            if (ret < 0) Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString());
+            if (ret < 0) Console.AppendText(Tdk.TdkDefines.GetLastEAIErrorString()+"\n");
         }
 
         //This method hold the majority of the code.
@@ -199,8 +200,8 @@ namespace InfinitePrecisionMatching
         {
             //Disable labels and buttons and reset flags
             NextButton.Enabled = false;
-            GainLabel.Visible = false;
-            FrequencyLabel.Visible = false;
+            //GainLabel.Visible = false;
+            //FrequencyLabel.Visible = false;
             PulseTactorButton.Enabled = false;
             PlaySoundButton.Enabled = false;
             soundPlayed = false;
@@ -217,19 +218,17 @@ namespace InfinitePrecisionMatching
             if (mode == 0)
             {
                 //Enable buttons and labels
-                GainLabel.Visible = true;
-                FrequencyLabel.Visible = true;
+                //GainLabel.Visible = true;
+                //FrequencyLabel.Visible = true;
                 PulseTactorButton.Enabled = true;
 
                 //Get the gain and freq.  start_intensity[] was populated from the config file.
-                gain = 64 + (int)((float)start_intensity[count] * 1.91);
-                frequency = 300 + (int)((float)start_intensity[count] * 32.5);
-                Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
+                gain = 1 + (int)((float)start_intensity[count] * 1.91);
                 Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
 
                 //Reset labels
-                GainLabel.Text = "Gain:" + gain;
-                FrequencyLabel.Text = "Frequency: " + frequency;
+                //GainLabel.Text = "Gain:" + gain;
+                //FrequencyLabel.Text = "Frequency: " + frequency;
 
                 //Matching: Visual
                 if (match_mode == 1)
@@ -259,13 +258,11 @@ namespace InfinitePrecisionMatching
                 //Matching: Tactile
                 if (match_mode == 0)
                 {
-                    gain = (int)(64 + (trackValue / max) * 191);
-                    frequency = (int)(300 + (trackValue / max) * 2500);
-                    GainLabel.Text = "Gain:" + gain;
-                    FrequencyLabel.Text = "Frequency: " + frequency;
+                    gain = (int)(1 + (trackValue / max) * 254);
+                    //GainLabel.Text = "Gain:" + gain;
                     PlaySoundButton.Enabled = false;
-                    GainLabel.Visible = true;
-                    FrequencyLabel.Visible = true;
+                    //GainLabel.Visible = true;
+                    //FrequencyLabel.Visible = true;
                     InstructionLabel.Text = "Pick the intensity of the vibration which best corresponds to the brightness.";
                     PulseTactorButton.Enabled = true;
                 }
@@ -288,10 +285,10 @@ namespace InfinitePrecisionMatching
                 //Matching: tactile
                 if (match_mode == 0)
                 {
-                    GainLabel.Text = "Gain:" + gain;
-                    FrequencyLabel.Text = "Frequency: " + frequency;
-                    GainLabel.Visible = true;
-                    FrequencyLabel.Visible = true;
+                    //GainLabel.Text = "Gain:" + gain;
+                    //FrequencyLabel.Text = "Frequency: " + frequency;
+                    //GainLabel.Visible = true;
+                    //FrequencyLabel.Visible = true;
                     InstructionLabel.Text = "Pick the intensity of the vibration which best corresponds to the volume.";
                     PulseTactorButton.Enabled = true;
                 }
@@ -314,13 +311,11 @@ namespace InfinitePrecisionMatching
 
             if (match_mode == 0)
             {
-                gain = (int)(64 + (trackValue / max) * 191);
+                gain = (int)(1 + (trackValue / max) * 254);
                 //was 1250 + ... (not sure why)
-                frequency = (int)(300 + (trackValue / max) * 3250);
-                Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
                 Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
-                GainLabel.Text = "Gain:" + gain;
-                FrequencyLabel.Text = "Frequency: " + frequency;
+                //GainLabel.Text = "Gain:" + gain;
+                //FrequencyLabel.Text = "Frequency: " + frequency;
             }
 
             else if (match_mode == 1)
@@ -333,11 +328,11 @@ namespace InfinitePrecisionMatching
             {
                 volume = trackValue / max;
                 mySoundEngine.SoundVolume = volume;
-                ImgIntensityPractice.Text = "Volume: " + (volume * 100).ToString() + '%';
+                practiceLabel.Text = "Volume: " + (volume * 100).ToString() + '%';
             }
 
-            //GainLabel.Text = "Gain:" + gain;
-            //FrequencyLabel.Text = "Frequency: " + frequency;
+            ////GainLabel.Text = "Gain:" + gain;
+            ////FrequencyLabel.Text = "Frequency: " + frequency;
         }
 
 
@@ -364,7 +359,7 @@ namespace InfinitePrecisionMatching
                 }
                 else
                 {
-                    while ((s = sr.ReadLine()) != null)
+                    while ((s = sr.ReadLine()) != null  && s != "")
                     {
                         //Get the modality
                         string[] words = s.Split(delimiterChars, StringSplitOptions.RemoveEmptyEntries);
@@ -449,7 +444,7 @@ namespace InfinitePrecisionMatching
                 //sr.Dispose();
             }//using
             trials = start_intensity.Count;
-            Console.AppendText("trials: " + trials);
+            Console.AppendText("trials: " + trials + "\n");
             StartButton.Enabled = true;
             FileName.Enabled = false;
             fileLoaded = true;
@@ -561,8 +556,8 @@ namespace InfinitePrecisionMatching
             Tdk.TdkInterface.ChangeFreq(ConnectedBoardID, 1, frequency, 0);
             Tdk.TdkInterface.ChangeGain(ConnectedBoardID, 1, gain, 0);
             CheckTDKErrors(Tdk.TdkInterface.Pulse(ConnectedBoardID, 1, 1000, 0));
-            GainLabel.Text = "Gain:" + gain;
-            FrequencyLabel.Text = "Frequency: " + frequency;
+            //GainLabel.Text = "Gain:" + gain;
+            //FrequencyLabel.Text = "Frequency: " + frequency;
         }
 
         private void LetsGetStartedButton_Click_1(object sender, EventArgs e)
@@ -581,17 +576,8 @@ namespace InfinitePrecisionMatching
             PlaySoundPracticeButton.Enabled = false;
             PulseTactorPracticeButton.Enabled = true;
 
-            //255 - 64 = 191
-            gain = (int)(64 + intensity * 191);
-            //was 1250 + ... (not sure why)
-            frequency = (int)(300 + intensity * 2500);
-
-            InstGainLabel.Text = "Gain:" + gain;
-            InstFrequencyLabel.Text = "Frequency: " + frequency;
-
-            InstGainLabel.Visible = true;
-            InstFrequencyLabel.Visible = true;
-            ImgIntensityPractice.Visible = false;
+            gain = (int)(1 + intensity * 254);
+            practiceLabel.Text = "Gain:" + gain;
         }
 
         private void ColorModePracticeRadio_Click(object sender, EventArgs e)
@@ -601,12 +587,8 @@ namespace InfinitePrecisionMatching
             PulseTactorPracticeButton.Enabled = false;
             PlaySoundPracticeButton.Enabled = false;
 
-            InstGainLabel.Visible = false;
-            InstFrequencyLabel.Visible = false;
-
             PracticeImage.BackColor = Color.FromArgb(color, color, color);
-            ImgIntensityPractice.Text = "Image Color Intensity: " + color;
-            ImgIntensityPractice.Visible = true;
+            practiceLabel.Text = "Image Color Intensity: " + color;
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
@@ -618,13 +600,9 @@ namespace InfinitePrecisionMatching
             //IF TACTOR MODE IS SELECTED, USER CAN ONLY CHANGE THE INTENSITY OF VIBRATION ON THE TACTOR
             if (TactorModePracticeRadio.Checked)
             {
-                //255 - 64 = 191
-                gain = (int)(64 + (practiceTrackValue / practiceMax) * 191);
-                //was 1250 + ... (not sure why)
-                frequency = (int)(300 + (practiceTrackValue / practiceMax) * 2500);
 
-                InstGainLabel.Text = "Gain:" + gain;
-                InstFrequencyLabel.Text = "Frequency: " + frequency;
+                gain = (int)(1 + (practiceTrackValue / practiceMax) * 254);
+                practiceLabel.Text = "Gain:" + gain;
             }//TACTOR MODE
 
             //COLOR MODE: USER CAN ONLY CHANGE THE BRIGHTNESS OF THE IMAGE
@@ -634,14 +612,14 @@ namespace InfinitePrecisionMatching
                 //Scale up to 255 
                 color = (int)(practiceTrackValue / practiceMax * 255);
                 PracticeImage.BackColor = Color.FromArgb(color, color, color);
-                ImgIntensityPractice.Text = "Image Color Intensity: " + color;
+                practiceLabel.Text = "Image Color Intensity: " + color;
             }//COLOR MODE
 
             else
             {
                 volume = practiceTrackValue / practiceMax;
                 mySoundEngine.SoundVolume = volume;
-                ImgIntensityPractice.Text = "Volume: " + (volume * 100).ToString() + '%';
+                practiceLabel.Text = "Volume: " + (volume * 100).ToString() + '%';
 
             }
         }
@@ -653,12 +631,9 @@ namespace InfinitePrecisionMatching
             PlaySoundPracticeButton.Enabled = true;
             PulseTactorPracticeButton.Enabled = false;
 
-            InstGainLabel.Visible = false;
-            InstFrequencyLabel.Visible = false;
-            ImgIntensityPractice.Visible = true;
             volume = trackBar2.Value / (float)trackBar2.Maximum;
             mySoundEngine.SoundVolume = volume;
-            ImgIntensityPractice.Text = "Volume: " + (volume * 100).ToString() + '%';
+            practiceLabel.Text = "Volume: " + (volume * 100).ToString() + '%';
         }
 
         private void PlaySoundPracticeButton_Click(object sender, EventArgs e)

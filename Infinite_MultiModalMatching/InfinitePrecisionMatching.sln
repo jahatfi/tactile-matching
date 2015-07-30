@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiModalMatching", "MultiModalMatching.csproj", "{B0D5C869-2BE5-48C4-B81E-D8B2A5C555A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfinitePrecisionMatching", "InfinitePrecisionMatching.csproj", "{B0D5C869-2BE5-48C4-B81E-D8B2A5C555A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
