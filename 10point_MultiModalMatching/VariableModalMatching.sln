@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VariablePointMatching", "VariablePointMatching.csproj", "{B0D5C869-2BE5-48C4-B81E-D8B2A5C555A4}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "VariablePrecisionMatching", "..\VariablePrecisionMatching\VariablePrecisionMatching.vdproj", "{3B37DD8E-6E0C-442A-A9EF-35AE5A617F3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,8 @@ Global
 		{B0D5C869-2BE5-48C4-B81E-D8B2A5C555A4}.Debug|x86.Build.0 = Release|x86
 		{B0D5C869-2BE5-48C4-B81E-D8B2A5C555A4}.Release|x86.ActiveCfg = Release|x86
 		{B0D5C869-2BE5-48C4-B81E-D8B2A5C555A4}.Release|x86.Build.0 = Release|x86
+		{3B37DD8E-6E0C-442A-A9EF-35AE5A617F3A}.Debug|x86.ActiveCfg = Debug
+		{3B37DD8E-6E0C-442A-A9EF-35AE5A617F3A}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

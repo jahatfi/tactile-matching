@@ -74,7 +74,7 @@ namespace InfinitePrecisionMatching
         {
             //Sound Code
             mySoundEngine = new ISoundEngine();
-            mySoundEngine.Play2D("../chimes.wav");
+            mySoundEngine.Play2D("chimes.wav");
 
             InitializeComponent();
             //To initialize the TDKInterface we need to call InitializeTI before we use any
@@ -638,13 +638,13 @@ namespace InfinitePrecisionMatching
 
         private void PlaySoundPracticeButton_Click(object sender, EventArgs e)
         {
-            mySoundEngine.Play2D("../chimes.wav");
+            mySoundEngine.Play2D("chimes.wav");
         }
 
         private void PlaySoundButton_Click(object sender, EventArgs e)
         {
 
-            mySoundEngine.Play2D("../chimes.wav");
+            mySoundEngine.Play2D("chimes.wav");
             soundPlayed = true;
 
             //Enable the next button if neither the stimulus nor the match mode are "tactile",

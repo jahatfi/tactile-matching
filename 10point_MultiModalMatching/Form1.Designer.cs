@@ -29,23 +29,20 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TenPointMatchingForm));
-            this.MatchingTab = new System.Windows.Forms.TabPage();
-            this.PlaySoundButton = new System.Windows.Forms.Button();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.FrequencyLabel = new System.Windows.Forms.Label();
-            this.GainLabel = new System.Windows.Forms.Label();
-            this.CountLabel = new System.Windows.Forms.Label();
-            this.FinishedLabel = new System.Windows.Forms.Label();
-            this.InstructionLabel = new System.Windows.Forms.Label();
-            this.NextButton = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.PulseTactorButton = new System.Windows.Forms.Button();
             this.ConfigureTab = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.volumeButton = new System.Windows.Forms.RadioButton();
+            this.frequencyButton = new System.Windows.Forms.RadioButton();
+            this.loadFileButton = new System.Windows.Forms.Button();
+            this.browseOutput = new System.Windows.Forms.Button();
+            this.outputFolder = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.outputFile = new System.Windows.Forms.TextBox();
+            this.browseInput = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.FileName = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.TrackbarPrecision = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.ParticipantNumber = new System.Windows.Forms.TextBox();
@@ -54,15 +51,27 @@
             this.discoverradio = new System.Windows.Forms.RadioButton();
             this.comportselection = new System.Windows.Forms.TextBox();
             this.ConnectButton = new System.Windows.Forms.Button();
-            this.EnterButton = new System.Windows.Forms.Button();
             this.ComPortLabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.Console = new System.Windows.Forms.RichTextBox();
-            this.FileName = new System.Windows.Forms.TextBox();
             this.ComPortComboBox = new System.Windows.Forms.ComboBox();
             this.DiscoverButton = new System.Windows.Forms.Button();
             this.StartButton = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.PrimaryTabControl = new System.Windows.Forms.TabControl();
+            this.MatchingTab = new System.Windows.Forms.TabPage();
+            this.GoBackButton = new System.Windows.Forms.Button();
+            this.variableLabel1 = new System.Windows.Forms.Label();
+            this.referenceLabel = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.playReferenceButton = new System.Windows.Forms.Button();
+            this.ReferenceImage = new System.Windows.Forms.PictureBox();
+            this.CountLabel = new System.Windows.Forms.Label();
+            this.NextButton = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.VariableImage = new System.Windows.Forms.PictureBox();
+            this.matchingTrackBar = new System.Windows.Forms.TrackBar();
+            this.playVariableButton = new System.Windows.Forms.Button();
+            this.FinishedLabel = new System.Windows.Forms.Label();
             this.InstructionsTab = new System.Windows.Forms.TabPage();
             this.PracticePanel = new System.Windows.Forms.Panel();
             this.SoundModePracticeRadio = new System.Windows.Forms.RadioButton();
@@ -70,7 +79,7 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.practiceLabel = new System.Windows.Forms.Label();
             this.LetsGetStartedButton = new System.Windows.Forms.Button();
-            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.practiceTrackbar = new System.Windows.Forms.TrackBar();
             this.TactorModePracticeRadio = new System.Windows.Forms.RadioButton();
             this.ColorModePracticeRadio = new System.Windows.Forms.RadioButton();
             this.PracticeImage = new System.Windows.Forms.PictureBox();
@@ -78,198 +87,37 @@
             this.PulseTactorPracticeButton = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.MatchingTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.ConfigureTab.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.PrimaryTabControl.SuspendLayout();
+            this.MatchingTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ReferenceImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VariableImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.matchingTrackBar)).BeginInit();
             this.InstructionsTab.SuspendLayout();
             this.PracticePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.practiceTrackbar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PracticeImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
-            // MatchingTab
-            // 
-            this.MatchingTab.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.MatchingTab.Controls.Add(this.PlaySoundButton);
-            this.MatchingTab.Controls.Add(this.pictureBox3);
-            this.MatchingTab.Controls.Add(this.FrequencyLabel);
-            this.MatchingTab.Controls.Add(this.GainLabel);
-            this.MatchingTab.Controls.Add(this.CountLabel);
-            this.MatchingTab.Controls.Add(this.InstructionLabel);
-            this.MatchingTab.Controls.Add(this.NextButton);
-            this.MatchingTab.Controls.Add(this.label4);
-            this.MatchingTab.Controls.Add(this.label6);
-            this.MatchingTab.Controls.Add(this.label7);
-            this.MatchingTab.Controls.Add(this.pictureBox1);
-            this.MatchingTab.Controls.Add(this.pictureBox2);
-            this.MatchingTab.Controls.Add(this.trackBar1);
-            this.MatchingTab.Controls.Add(this.PulseTactorButton);
-            this.MatchingTab.Controls.Add(this.FinishedLabel);
-            this.MatchingTab.Location = new System.Drawing.Point(4, 25);
-            this.MatchingTab.Name = "MatchingTab";
-            this.MatchingTab.Padding = new System.Windows.Forms.Padding(3);
-            this.MatchingTab.Size = new System.Drawing.Size(924, 549);
-            this.MatchingTab.TabIndex = 2;
-            this.MatchingTab.Text = "Matching";
-            // 
-            // PlaySoundButton
-            // 
-            this.PlaySoundButton.Enabled = false;
-            this.PlaySoundButton.Location = new System.Drawing.Point(146, 242);
-            this.PlaySoundButton.Name = "PlaySoundButton";
-            this.PlaySoundButton.Size = new System.Drawing.Size(89, 29);
-            this.PlaySoundButton.TabIndex = 44;
-            this.PlaySoundButton.Text = "Play Sound";
-            this.PlaySoundButton.UseVisualStyleBackColor = true;
-            this.PlaySoundButton.Click += new System.EventHandler(this.PlaySoundButton_Click);
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(128, 92);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(128, 134);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 43;
-            this.pictureBox3.TabStop = false;
-            // 
-            // FrequencyLabel
-            // 
-            this.FrequencyLabel.AutoSize = true;
-            this.FrequencyLabel.Location = new System.Drawing.Point(368, 463);
-            this.FrequencyLabel.Name = "FrequencyLabel";
-            this.FrequencyLabel.Size = new System.Drawing.Size(83, 17);
-            this.FrequencyLabel.TabIndex = 42;
-            this.FrequencyLabel.Text = "Frequency: ";
-            this.FrequencyLabel.Visible = false;
-            // 
-            // GainLabel
-            // 
-            this.GainLabel.AutoSize = true;
-            this.GainLabel.Location = new System.Drawing.Point(368, 433);
-            this.GainLabel.Name = "GainLabel";
-            this.GainLabel.Size = new System.Drawing.Size(42, 17);
-            this.GainLabel.TabIndex = 41;
-            this.GainLabel.Text = "Gain:";
-            this.GainLabel.Visible = false;
-            // 
-            // CountLabel
-            // 
-            this.CountLabel.AutoSize = true;
-            this.CountLabel.Location = new System.Drawing.Point(256, 400);
-            this.CountLabel.Name = "CountLabel";
-            this.CountLabel.Size = new System.Drawing.Size(0, 17);
-            this.CountLabel.TabIndex = 40;
-            // 
-            // FinishedLabel
-            // 
-            this.FinishedLabel.AutoSize = true;
-            this.FinishedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FinishedLabel.Location = new System.Drawing.Point(218, 125);
-            this.FinishedLabel.Name = "FinishedLabel";
-            this.FinishedLabel.Size = new System.Drawing.Size(468, 80);
-            this.FinishedLabel.TabIndex = 39;
-            this.FinishedLabel.Text = "Finished!  Thanks for participating!\r\n\r\nNote to experimentor: The results file is" +
-                " stored on James\' desktop\r\nunder the name <Participant#>Results.txt";
-            this.FinishedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.FinishedLabel.Visible = false;
-            // 
-            // InstructionLabel
-            // 
-            this.InstructionLabel.AutoSize = true;
-            this.InstructionLabel.Location = new System.Drawing.Point(255, 372);
-            this.InstructionLabel.Name = "InstructionLabel";
-            this.InstructionLabel.Size = new System.Drawing.Size(537, 17);
-            this.InstructionLabel.TabIndex = 38;
-            this.InstructionLabel.Text = "Use the slider to match the intensity of the brightness to the intensity of the v" +
-                "ibration";
-            // 
-            // NextButton
-            // 
-            this.NextButton.Enabled = false;
-            this.NextButton.Location = new System.Drawing.Point(423, 400);
-            this.NextButton.Name = "NextButton";
-            this.NextButton.Size = new System.Drawing.Size(75, 23);
-            this.NextButton.TabIndex = 36;
-            this.NextButton.Text = "Next";
-            this.NextButton.UseVisualStyleBackColor = true;
-            this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(347, 375);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(0, 17);
-            this.label4.TabIndex = 34;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(365, 359);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(0, 17);
-            this.label6.TabIndex = 33;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(446, 56);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(0, 17);
-            this.label7.TabIndex = 32;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Black;
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(386, 92);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(148, 134);
-            this.pictureBox1.TabIndex = 31;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(659, 92);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(128, 134);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 30;
-            this.pictureBox2.TabStop = false;
-            // 
-            // trackBar1
-            // 
-            this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(27, 311);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(894, 45);
-            this.trackBar1.TabIndex = 29;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-            // 
-            // PulseTactorButton
-            // 
-            this.PulseTactorButton.Enabled = false;
-            this.PulseTactorButton.Location = new System.Drawing.Point(685, 245);
-            this.PulseTactorButton.Name = "PulseTactorButton";
-            this.PulseTactorButton.Size = new System.Drawing.Size(89, 29);
-            this.PulseTactorButton.TabIndex = 28;
-            this.PulseTactorButton.Text = "Pulse Tactor";
-            this.PulseTactorButton.UseVisualStyleBackColor = true;
-            this.PulseTactorButton.Click += new System.EventHandler(this.PulseTactor1Button_Click);
-            // 
             // ConfigureTab
             // 
             this.ConfigureTab.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ConfigureTab.Controls.Add(this.panel1);
+            this.ConfigureTab.Controls.Add(this.loadFileButton);
+            this.ConfigureTab.Controls.Add(this.browseOutput);
+            this.ConfigureTab.Controls.Add(this.outputFolder);
+            this.ConfigureTab.Controls.Add(this.label2);
+            this.ConfigureTab.Controls.Add(this.label6);
+            this.ConfigureTab.Controls.Add(this.outputFile);
+            this.ConfigureTab.Controls.Add(this.browseInput);
+            this.ConfigureTab.Controls.Add(this.label5);
+            this.ConfigureTab.Controls.Add(this.FileName);
+            this.ConfigureTab.Controls.Add(this.label1);
             this.ConfigureTab.Controls.Add(this.TrackbarPrecision);
             this.ConfigureTab.Controls.Add(this.label8);
             this.ConfigureTab.Controls.Add(this.ParticipantNumber);
@@ -278,52 +126,172 @@
             this.ConfigureTab.Controls.Add(this.discoverradio);
             this.ConfigureTab.Controls.Add(this.comportselection);
             this.ConfigureTab.Controls.Add(this.ConnectButton);
-            this.ConfigureTab.Controls.Add(this.EnterButton);
             this.ConfigureTab.Controls.Add(this.ComPortLabel);
-            this.ConfigureTab.Controls.Add(this.label5);
             this.ConfigureTab.Controls.Add(this.Console);
-            this.ConfigureTab.Controls.Add(this.FileName);
             this.ConfigureTab.Controls.Add(this.ComPortComboBox);
             this.ConfigureTab.Controls.Add(this.DiscoverButton);
             this.ConfigureTab.Controls.Add(this.StartButton);
-            this.ConfigureTab.Location = new System.Drawing.Point(4, 25);
+            this.ConfigureTab.Location = new System.Drawing.Point(4, 29);
             this.ConfigureTab.Name = "ConfigureTab";
             this.ConfigureTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ConfigureTab.Size = new System.Drawing.Size(924, 549);
+            this.ConfigureTab.Size = new System.Drawing.Size(879, 571);
             this.ConfigureTab.TabIndex = 1;
             this.ConfigureTab.Text = "Configure";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.volumeButton);
+            this.panel1.Controls.Add(this.frequencyButton);
+            this.panel1.Location = new System.Drawing.Point(625, 168);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(238, 100);
+            this.panel1.TabIndex = 71;
+            // 
+            // volumeButton
+            // 
+            this.volumeButton.AutoSize = true;
+            this.volumeButton.Location = new System.Drawing.Point(14, 23);
+            this.volumeButton.Name = "volumeButton";
+            this.volumeButton.Size = new System.Drawing.Size(186, 24);
+            this.volumeButton.TabIndex = 62;
+            this.volumeButton.Text = "Match to audio volume";
+            this.volumeButton.UseVisualStyleBackColor = true;
+            this.volumeButton.CheckedChanged += new System.EventHandler(this.volumeButton_CheckedChanged);
+            // 
+            // frequencyButton
+            // 
+            this.frequencyButton.AutoSize = true;
+            this.frequencyButton.Checked = true;
+            this.frequencyButton.Location = new System.Drawing.Point(14, 53);
+            this.frequencyButton.Name = "frequencyButton";
+            this.frequencyButton.Size = new System.Drawing.Size(206, 24);
+            this.frequencyButton.TabIndex = 63;
+            this.frequencyButton.TabStop = true;
+            this.frequencyButton.Text = "Match to audio frequency";
+            this.frequencyButton.UseVisualStyleBackColor = true;
+            // 
+            // loadFileButton
+            // 
+            this.loadFileButton.Location = new System.Drawing.Point(506, 126);
+            this.loadFileButton.Name = "loadFileButton";
+            this.loadFileButton.Size = new System.Drawing.Size(116, 26);
+            this.loadFileButton.TabIndex = 70;
+            this.loadFileButton.Text = "Load File";
+            this.loadFileButton.UseVisualStyleBackColor = true;
+            this.loadFileButton.Click += new System.EventHandler(this.LoadFile);
+            // 
+            // browseOutput
+            // 
+            this.browseOutput.Location = new System.Drawing.Point(384, 259);
+            this.browseOutput.Name = "browseOutput";
+            this.browseOutput.Size = new System.Drawing.Size(116, 26);
+            this.browseOutput.TabIndex = 69;
+            this.browseOutput.Text = "Browse...";
+            this.browseOutput.UseVisualStyleBackColor = true;
+            this.browseOutput.Click += new System.EventHandler(this.browseOutput_Click);
+            // 
+            // outputFolder
+            // 
+            this.outputFolder.Location = new System.Drawing.Point(18, 259);
+            this.outputFolder.Name = "outputFolder";
+            this.outputFolder.Size = new System.Drawing.Size(360, 26);
+            this.outputFolder.TabIndex = 68;
+            this.outputFolder.Text = "C:\\Users\\Public\\Documents\\";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(14, 236);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(353, 20);
+            this.label2.TabIndex = 67;
+            this.label2.Text = "Where would you like the output file to be saved?";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(14, 168);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(394, 20);
+            this.label6.TabIndex = 66;
+            this.label6.Text = "What would you like your output file to be callled? (*.txt)\r\n";
+            // 
+            // outputFile
+            // 
+            this.outputFile.Location = new System.Drawing.Point(18, 196);
+            this.outputFile.Name = "outputFile";
+            this.outputFile.Size = new System.Drawing.Size(158, 26);
+            this.outputFile.TabIndex = 65;
+            this.outputFile.Text = "myResults.txt";
+            // 
+            // browseInput
+            // 
+            this.browseInput.Location = new System.Drawing.Point(384, 126);
+            this.browseInput.Name = "browseInput";
+            this.browseInput.Size = new System.Drawing.Size(116, 26);
+            this.browseInput.TabIndex = 64;
+            this.browseInput.Text = "Browse...";
+            this.browseInput.UseVisualStyleBackColor = true;
+            this.browseInput.Click += new System.EventHandler(this.browseInput_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(14, 98);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(324, 20);
+            this.label5.TabIndex = 63;
+            this.label5.Text = "Enter the name of the configuration file here:\r\n";
+            // 
+            // FileName
+            // 
+            this.FileName.Location = new System.Drawing.Point(18, 126);
+            this.FileName.Name = "FileName";
+            this.FileName.Size = new System.Drawing.Size(360, 26);
+            this.FileName.TabIndex = 62;
+            this.FileName.Text = "C:\\Users\\Public\\Documents\\config.txt";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(589, 488);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(284, 80);
+            this.label1.TabIndex = 56;
+            this.label1.Text = "*Hint: Bluetooth connections start with:\r\n\"\\\\.\\\" e.g. \\\\.\\COM40 \r\nUSB connections" +
+                " are generally COM3, \r\nCOM4, etc.";
+            // 
             // TrackbarPrecision
             // 
-            this.TrackbarPrecision.Location = new System.Drawing.Point(126, 181);
+            this.TrackbarPrecision.Location = new System.Drawing.Point(344, 61);
             this.TrackbarPrecision.Name = "TrackbarPrecision";
-            this.TrackbarPrecision.Size = new System.Drawing.Size(67, 23);
+            this.TrackbarPrecision.Size = new System.Drawing.Size(67, 26);
             this.TrackbarPrecision.TabIndex = 52;
             this.TrackbarPrecision.Text = "10";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(34, 147);
+            this.label8.Location = new System.Drawing.Point(15, 64);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(291, 17);
+            this.label8.Size = new System.Drawing.Size(323, 20);
             this.label8.TabIndex = 51;
             this.label8.Text = "Set the precision of the track bar. [10-10000]";
             // 
             // ParticipantNumber
             // 
-            this.ParticipantNumber.Location = new System.Drawing.Point(96, 83);
+            this.ParticipantNumber.Location = new System.Drawing.Point(169, 16);
             this.ParticipantNumber.Name = "ParticipantNumber";
-            this.ParticipantNumber.Size = new System.Drawing.Size(106, 23);
+            this.ParticipantNumber.Size = new System.Drawing.Size(106, 26);
             this.ParticipantNumber.TabIndex = 50;
             this.ParticipantNumber.Text = "3";
             // 
             // NameLabel
             // 
             this.NameLabel.AutoSize = true;
-            this.NameLabel.Location = new System.Drawing.Point(93, 56);
+            this.NameLabel.Location = new System.Drawing.Point(15, 16);
             this.NameLabel.Name = "NameLabel";
-            this.NameLabel.Size = new System.Drawing.Size(133, 17);
+            this.NameLabel.Size = new System.Drawing.Size(148, 20);
             this.NameLabel.TabIndex = 49;
             this.NameLabel.Text = "Participant Number:";
             // 
@@ -331,7 +299,7 @@
             // 
             this.connectradio.AutoSize = true;
             this.connectradio.Checked = true;
-            this.connectradio.Location = new System.Drawing.Point(645, 88);
+            this.connectradio.Location = new System.Drawing.Point(639, 70);
             this.connectradio.Name = "connectradio";
             this.connectradio.Size = new System.Drawing.Size(14, 13);
             this.connectradio.TabIndex = 48;
@@ -341,7 +309,7 @@
             // discoverradio
             // 
             this.discoverradio.AutoSize = true;
-            this.discoverradio.Location = new System.Drawing.Point(645, 60);
+            this.discoverradio.Location = new System.Drawing.Point(639, 38);
             this.discoverradio.Name = "discoverradio";
             this.discoverradio.Size = new System.Drawing.Size(14, 13);
             this.discoverradio.TabIndex = 47;
@@ -349,80 +317,52 @@
             // 
             // comportselection
             // 
-            this.comportselection.Location = new System.Drawing.Point(666, 85);
+            this.comportselection.Location = new System.Drawing.Point(659, 66);
             this.comportselection.Name = "comportselection";
-            this.comportselection.Size = new System.Drawing.Size(204, 23);
+            this.comportselection.Size = new System.Drawing.Size(204, 26);
             this.comportselection.TabIndex = 46;
-            this.comportselection.Text = "COM4";
+            this.comportselection.Text = "COM3";
             // 
             // ConnectButton
             // 
-            this.ConnectButton.Location = new System.Drawing.Point(709, 170);
+            this.ConnectButton.Location = new System.Drawing.Point(763, 98);
             this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(116, 44);
+            this.ConnectButton.Size = new System.Drawing.Size(98, 32);
             this.ConnectButton.TabIndex = 45;
             this.ConnectButton.Text = "Connect!";
             this.ConnectButton.UseVisualStyleBackColor = true;
             this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
             // 
-            // EnterButton
-            // 
-            this.EnterButton.Location = new System.Drawing.Point(400, 109);
-            this.EnterButton.Name = "EnterButton";
-            this.EnterButton.Size = new System.Drawing.Size(116, 44);
-            this.EnterButton.TabIndex = 44;
-            this.EnterButton.Text = "Enter";
-            this.EnterButton.UseVisualStyleBackColor = true;
-            this.EnterButton.Click += new System.EventHandler(this.EnterButton_Click);
-            // 
             // ComPortLabel
             // 
             this.ComPortLabel.AutoSize = true;
-            this.ComPortLabel.Location = new System.Drawing.Point(663, 41);
+            this.ComPortLabel.Location = new System.Drawing.Point(716, 8);
             this.ComPortLabel.Name = "ComPortLabel";
-            this.ComPortLabel.Size = new System.Drawing.Size(66, 17);
+            this.ComPortLabel.Size = new System.Drawing.Size(81, 20);
             this.ComPortLabel.TabIndex = 42;
-            this.ComPortLabel.Text = "Com Port";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(349, 39);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(290, 34);
-            this.label5.TabIndex = 43;
-            this.label5.Text = "Enter the name of the configuration file here:\r\n(Note: it must be placed on James" +
-                "\' desktop)";
+            this.ComPortLabel.Text = "Com Port*";
             // 
             // Console
             // 
-            this.Console.Location = new System.Drawing.Point(302, 305);
+            this.Console.Location = new System.Drawing.Point(169, 345);
             this.Console.Name = "Console";
-            this.Console.Size = new System.Drawing.Size(316, 122);
+            this.Console.Size = new System.Drawing.Size(526, 122);
             this.Console.TabIndex = 41;
             this.Console.Text = "";
-            // 
-            // FileName
-            // 
-            this.FileName.Location = new System.Drawing.Point(360, 78);
-            this.FileName.Name = "FileName";
-            this.FileName.Size = new System.Drawing.Size(204, 23);
-            this.FileName.TabIndex = 39;
-            this.FileName.Text = "config.txt";
             // 
             // ComPortComboBox
             // 
             this.ComPortComboBox.FormattingEnabled = true;
-            this.ComPortComboBox.Location = new System.Drawing.Point(666, 57);
+            this.ComPortComboBox.Location = new System.Drawing.Point(659, 31);
             this.ComPortComboBox.Name = "ComPortComboBox";
-            this.ComPortComboBox.Size = new System.Drawing.Size(204, 24);
+            this.ComPortComboBox.Size = new System.Drawing.Size(204, 28);
             this.ComPortComboBox.TabIndex = 36;
             // 
             // DiscoverButton
             // 
-            this.DiscoverButton.Location = new System.Drawing.Point(709, 120);
+            this.DiscoverButton.Location = new System.Drawing.Point(659, 98);
             this.DiscoverButton.Name = "DiscoverButton";
-            this.DiscoverButton.Size = new System.Drawing.Size(116, 44);
+            this.DiscoverButton.Size = new System.Drawing.Size(98, 32);
             this.DiscoverButton.TabIndex = 37;
             this.DiscoverButton.Text = "Discover";
             this.DiscoverButton.UseVisualStyleBackColor = true;
@@ -431,7 +371,7 @@
             // StartButton
             // 
             this.StartButton.Enabled = false;
-            this.StartButton.Location = new System.Drawing.Point(400, 456);
+            this.StartButton.Location = new System.Drawing.Point(370, 495);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(116, 46);
             this.StartButton.TabIndex = 38;
@@ -439,17 +379,186 @@
             this.StartButton.UseVisualStyleBackColor = true;
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
-            // tabControl1
+            // PrimaryTabControl
             // 
-            this.tabControl1.Controls.Add(this.ConfigureTab);
-            this.tabControl1.Controls.Add(this.InstructionsTab);
-            this.tabControl1.Controls.Add(this.MatchingTab);
-            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl1.Location = new System.Drawing.Point(3, 3);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(932, 578);
-            this.tabControl1.TabIndex = 36;
+            this.PrimaryTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.PrimaryTabControl.Controls.Add(this.ConfigureTab);
+            this.PrimaryTabControl.Controls.Add(this.InstructionsTab);
+            this.PrimaryTabControl.Controls.Add(this.MatchingTab);
+            this.PrimaryTabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PrimaryTabControl.Location = new System.Drawing.Point(3, 3);
+            this.PrimaryTabControl.Name = "PrimaryTabControl";
+            this.PrimaryTabControl.SelectedIndex = 0;
+            this.PrimaryTabControl.Size = new System.Drawing.Size(887, 604);
+            this.PrimaryTabControl.TabIndex = 36;
+            // 
+            // MatchingTab
+            // 
+            this.MatchingTab.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.MatchingTab.Controls.Add(this.GoBackButton);
+            this.MatchingTab.Controls.Add(this.variableLabel1);
+            this.MatchingTab.Controls.Add(this.referenceLabel);
+            this.MatchingTab.Controls.Add(this.richTextBox1);
+            this.MatchingTab.Controls.Add(this.playReferenceButton);
+            this.MatchingTab.Controls.Add(this.ReferenceImage);
+            this.MatchingTab.Controls.Add(this.CountLabel);
+            this.MatchingTab.Controls.Add(this.NextButton);
+            this.MatchingTab.Controls.Add(this.label4);
+            this.MatchingTab.Controls.Add(this.label7);
+            this.MatchingTab.Controls.Add(this.VariableImage);
+            this.MatchingTab.Controls.Add(this.matchingTrackBar);
+            this.MatchingTab.Controls.Add(this.playVariableButton);
+            this.MatchingTab.Controls.Add(this.FinishedLabel);
+            this.MatchingTab.Location = new System.Drawing.Point(4, 29);
+            this.MatchingTab.Name = "MatchingTab";
+            this.MatchingTab.Padding = new System.Windows.Forms.Padding(3);
+            this.MatchingTab.Size = new System.Drawing.Size(879, 571);
+            this.MatchingTab.TabIndex = 2;
+            this.MatchingTab.Text = "Matching";
+            // 
+            // GoBackButton
+            // 
+            this.GoBackButton.Enabled = false;
+            this.GoBackButton.Location = new System.Drawing.Point(18, 521);
+            this.GoBackButton.Name = "GoBackButton";
+            this.GoBackButton.Size = new System.Drawing.Size(93, 29);
+            this.GoBackButton.TabIndex = 49;
+            this.GoBackButton.Text = "Go Back";
+            this.GoBackButton.UseVisualStyleBackColor = true;
+            this.GoBackButton.Click += new System.EventHandler(this.GoBackButton_Click);
+            // 
+            // variableLabel1
+            // 
+            this.variableLabel1.AutoSize = true;
+            this.variableLabel1.Location = new System.Drawing.Point(580, 155);
+            this.variableLabel1.Name = "variableLabel1";
+            this.variableLabel1.Size = new System.Drawing.Size(67, 20);
+            this.variableLabel1.TabIndex = 48;
+            this.variableLabel1.Text = "Variable";
+            this.variableLabel1.Visible = false;
+            // 
+            // referenceLabel
+            // 
+            this.referenceLabel.AutoSize = true;
+            this.referenceLabel.Location = new System.Drawing.Point(253, 155);
+            this.referenceLabel.Name = "referenceLabel";
+            this.referenceLabel.Size = new System.Drawing.Size(84, 20);
+            this.referenceLabel.TabIndex = 46;
+            this.referenceLabel.Text = "Reference";
+            this.referenceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(113, 106);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(679, 33);
+            this.richTextBox1.TabIndex = 45;
+            this.richTextBox1.Text = "";
+            // 
+            // playReferenceButton
+            // 
+            this.playReferenceButton.Enabled = false;
+            this.playReferenceButton.Location = new System.Drawing.Point(232, 330);
+            this.playReferenceButton.Name = "playReferenceButton";
+            this.playReferenceButton.Size = new System.Drawing.Size(128, 29);
+            this.playReferenceButton.TabIndex = 44;
+            this.playReferenceButton.Text = "Play";
+            this.playReferenceButton.UseVisualStyleBackColor = true;
+            this.playReferenceButton.Click += new System.EventHandler(this.playReferenceButton_Click);
+            // 
+            // ReferenceImage
+            // 
+            this.ReferenceImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ReferenceImage.Image = ((System.Drawing.Image)(resources.GetObject("ReferenceImage.Image")));
+            this.ReferenceImage.Location = new System.Drawing.Point(232, 178);
+            this.ReferenceImage.Name = "ReferenceImage";
+            this.ReferenceImage.Size = new System.Drawing.Size(128, 134);
+            this.ReferenceImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.ReferenceImage.TabIndex = 43;
+            this.ReferenceImage.TabStop = false;
+            // 
+            // CountLabel
+            // 
+            this.CountLabel.AutoSize = true;
+            this.CountLabel.Location = new System.Drawing.Point(23, 55);
+            this.CountLabel.Name = "CountLabel";
+            this.CountLabel.Size = new System.Drawing.Size(88, 20);
+            this.CountLabel.TabIndex = 40;
+            this.CountLabel.Text = "Trial: 0 of N";
+            // 
+            // NextButton
+            // 
+            this.NextButton.Enabled = false;
+            this.NextButton.Location = new System.Drawing.Point(405, 422);
+            this.NextButton.Name = "NextButton";
+            this.NextButton.Size = new System.Drawing.Size(75, 29);
+            this.NextButton.TabIndex = 36;
+            this.NextButton.Text = "Next";
+            this.NextButton.UseVisualStyleBackColor = true;
+            this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Enabled = false;
+            this.label4.Location = new System.Drawing.Point(433, 426);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(0, 20);
+            this.label4.TabIndex = 34;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(453, 109);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(0, 20);
+            this.label7.TabIndex = 32;
+            // 
+            // VariableImage
+            // 
+            this.VariableImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.VariableImage.Image = ((System.Drawing.Image)(resources.GetObject("VariableImage.Image")));
+            this.VariableImage.Location = new System.Drawing.Point(556, 178);
+            this.VariableImage.Name = "VariableImage";
+            this.VariableImage.Size = new System.Drawing.Size(128, 134);
+            this.VariableImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.VariableImage.TabIndex = 30;
+            this.VariableImage.TabStop = false;
+            // 
+            // matchingTrackBar
+            // 
+            this.matchingTrackBar.Enabled = false;
+            this.matchingTrackBar.LargeChange = 1;
+            this.matchingTrackBar.Location = new System.Drawing.Point(113, 378);
+            this.matchingTrackBar.Name = "matchingTrackBar";
+            this.matchingTrackBar.Size = new System.Drawing.Size(679, 45);
+            this.matchingTrackBar.TabIndex = 29;
+            this.matchingTrackBar.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // playVariableButton
+            // 
+            this.playVariableButton.Enabled = false;
+            this.playVariableButton.Location = new System.Drawing.Point(556, 330);
+            this.playVariableButton.Name = "playVariableButton";
+            this.playVariableButton.Size = new System.Drawing.Size(128, 29);
+            this.playVariableButton.TabIndex = 28;
+            this.playVariableButton.Text = "Play";
+            this.playVariableButton.UseVisualStyleBackColor = true;
+            this.playVariableButton.Click += new System.EventHandler(this.playVariableButton_Click);
+            // 
+            // FinishedLabel
+            // 
+            this.FinishedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FinishedLabel.Location = new System.Drawing.Point(193, 155);
+            this.FinishedLabel.Name = "FinishedLabel";
+            this.FinishedLabel.Size = new System.Drawing.Size(500, 119);
+            this.FinishedLabel.TabIndex = 39;
+            this.FinishedLabel.Text = "Finished!";
+            this.FinishedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.FinishedLabel.Visible = false;
             // 
             // InstructionsTab
             // 
@@ -457,10 +566,10 @@
             this.InstructionsTab.Controls.Add(this.PracticePanel);
             this.InstructionsTab.Controls.Add(this.label17);
             this.InstructionsTab.Controls.Add(this.label3);
-            this.InstructionsTab.Location = new System.Drawing.Point(4, 25);
+            this.InstructionsTab.Location = new System.Drawing.Point(4, 29);
             this.InstructionsTab.Name = "InstructionsTab";
             this.InstructionsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.InstructionsTab.Size = new System.Drawing.Size(924, 549);
+            this.InstructionsTab.Size = new System.Drawing.Size(879, 571);
             this.InstructionsTab.TabIndex = 3;
             this.InstructionsTab.Text = "Instructions";
             // 
@@ -471,7 +580,7 @@
             this.PracticePanel.Controls.Add(this.pictureBox5);
             this.PracticePanel.Controls.Add(this.practiceLabel);
             this.PracticePanel.Controls.Add(this.LetsGetStartedButton);
-            this.PracticePanel.Controls.Add(this.trackBar2);
+            this.PracticePanel.Controls.Add(this.practiceTrackbar);
             this.PracticePanel.Controls.Add(this.TactorModePracticeRadio);
             this.PracticePanel.Controls.Add(this.ColorModePracticeRadio);
             this.PracticePanel.Controls.Add(this.PracticeImage);
@@ -479,16 +588,17 @@
             this.PracticePanel.Controls.Add(this.PulseTactorPracticeButton);
             this.PracticePanel.Location = new System.Drawing.Point(21, 179);
             this.PracticePanel.Name = "PracticePanel";
-            this.PracticePanel.Size = new System.Drawing.Size(875, 356);
+            this.PracticePanel.Size = new System.Drawing.Size(829, 363);
             this.PracticePanel.TabIndex = 48;
             // 
             // SoundModePracticeRadio
             // 
             this.SoundModePracticeRadio.AutoSize = true;
-            this.SoundModePracticeRadio.Location = new System.Drawing.Point(240, 229);
+            this.SoundModePracticeRadio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SoundModePracticeRadio.Location = new System.Drawing.Point(230, 232);
             this.SoundModePracticeRadio.Name = "SoundModePracticeRadio";
             this.SoundModePracticeRadio.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.SoundModePracticeRadio.Size = new System.Drawing.Size(106, 21);
+            this.SoundModePracticeRadio.Size = new System.Drawing.Size(118, 24);
             this.SoundModePracticeRadio.TabIndex = 59;
             this.SoundModePracticeRadio.TabStop = true;
             this.SoundModePracticeRadio.Text = "Sound Mode";
@@ -498,9 +608,10 @@
             // PlaySoundPracticeButton
             // 
             this.PlaySoundPracticeButton.Enabled = false;
-            this.PlaySoundPracticeButton.Location = new System.Drawing.Point(170, 184);
+            this.PlaySoundPracticeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PlaySoundPracticeButton.Location = new System.Drawing.Point(149, 187);
             this.PlaySoundPracticeButton.Name = "PlaySoundPracticeButton";
-            this.PlaySoundPracticeButton.Size = new System.Drawing.Size(89, 29);
+            this.PlaySoundPracticeButton.Size = new System.Drawing.Size(108, 29);
             this.PlaySoundPracticeButton.TabIndex = 58;
             this.PlaySoundPracticeButton.Text = "Play Sound";
             this.PlaySoundPracticeButton.UseVisualStyleBackColor = true;
@@ -510,7 +621,7 @@
             // 
             this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(150, 28);
+            this.pictureBox5.Location = new System.Drawing.Point(140, 31);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(128, 134);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -520,37 +631,40 @@
             // practiceLabel
             // 
             this.practiceLabel.AutoSize = true;
-            this.practiceLabel.Location = new System.Drawing.Point(629, 278);
+            this.practiceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.practiceLabel.Location = new System.Drawing.Point(619, 281);
             this.practiceLabel.Name = "practiceLabel";
-            this.practiceLabel.Size = new System.Drawing.Size(155, 17);
+            this.practiceLabel.Size = new System.Drawing.Size(176, 20);
             this.practiceLabel.TabIndex = 54;
             this.practiceLabel.Text = "Image Color Intensity: 0";
             // 
             // LetsGetStartedButton
             // 
-            this.LetsGetStartedButton.Location = new System.Drawing.Point(353, 329);
+            this.LetsGetStartedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LetsGetStartedButton.Location = new System.Drawing.Point(349, 318);
             this.LetsGetStartedButton.Name = "LetsGetStartedButton";
-            this.LetsGetStartedButton.Size = new System.Drawing.Size(138, 23);
+            this.LetsGetStartedButton.Size = new System.Drawing.Size(138, 34);
             this.LetsGetStartedButton.TabIndex = 52;
             this.LetsGetStartedButton.Text = "Let\'s get started!";
             this.LetsGetStartedButton.UseVisualStyleBackColor = true;
             this.LetsGetStartedButton.Click += new System.EventHandler(this.LetsGetStartedButton_Click_1);
             // 
-            // trackBar2
+            // practiceTrackbar
             // 
-            this.trackBar2.Location = new System.Drawing.Point(187, 278);
-            this.trackBar2.Maximum = 50;
-            this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Size = new System.Drawing.Size(427, 45);
-            this.trackBar2.TabIndex = 51;
-            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
+            this.practiceTrackbar.Location = new System.Drawing.Point(177, 281);
+            this.practiceTrackbar.Maximum = 50;
+            this.practiceTrackbar.Name = "practiceTrackbar";
+            this.practiceTrackbar.Size = new System.Drawing.Size(427, 45);
+            this.practiceTrackbar.TabIndex = 51;
+            this.practiceTrackbar.Scroll += new System.EventHandler(this.trackBar2_Scroll);
             // 
             // TactorModePracticeRadio
             // 
             this.TactorModePracticeRadio.AutoSize = true;
-            this.TactorModePracticeRadio.Location = new System.Drawing.Point(542, 229);
+            this.TactorModePracticeRadio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TactorModePracticeRadio.Location = new System.Drawing.Point(532, 232);
             this.TactorModePracticeRadio.Name = "TactorModePracticeRadio";
-            this.TactorModePracticeRadio.Size = new System.Drawing.Size(106, 21);
+            this.TactorModePracticeRadio.Size = new System.Drawing.Size(116, 24);
             this.TactorModePracticeRadio.TabIndex = 50;
             this.TactorModePracticeRadio.Text = "Tactor Mode";
             this.TactorModePracticeRadio.UseVisualStyleBackColor = true;
@@ -560,9 +674,10 @@
             // 
             this.ColorModePracticeRadio.AutoSize = true;
             this.ColorModePracticeRadio.Checked = true;
-            this.ColorModePracticeRadio.Location = new System.Drawing.Point(389, 229);
+            this.ColorModePracticeRadio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ColorModePracticeRadio.Location = new System.Drawing.Point(379, 232);
             this.ColorModePracticeRadio.Name = "ColorModePracticeRadio";
-            this.ColorModePracticeRadio.Size = new System.Drawing.Size(98, 21);
+            this.ColorModePracticeRadio.Size = new System.Drawing.Size(108, 24);
             this.ColorModePracticeRadio.TabIndex = 49;
             this.ColorModePracticeRadio.TabStop = true;
             this.ColorModePracticeRadio.Text = "Color Mode";
@@ -573,7 +688,7 @@
             // 
             this.PracticeImage.BackColor = System.Drawing.Color.Black;
             this.PracticeImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PracticeImage.Location = new System.Drawing.Point(353, 28);
+            this.PracticeImage.Location = new System.Drawing.Point(343, 31);
             this.PracticeImage.Name = "PracticeImage";
             this.PracticeImage.Size = new System.Drawing.Size(148, 134);
             this.PracticeImage.TabIndex = 47;
@@ -583,7 +698,7 @@
             // 
             this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(583, 28);
+            this.pictureBox4.Location = new System.Drawing.Point(573, 31);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(128, 134);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -593,9 +708,10 @@
             // PulseTactorPracticeButton
             // 
             this.PulseTactorPracticeButton.Enabled = false;
-            this.PulseTactorPracticeButton.Location = new System.Drawing.Point(603, 184);
+            this.PulseTactorPracticeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PulseTactorPracticeButton.Location = new System.Drawing.Point(592, 187);
             this.PulseTactorPracticeButton.Name = "PulseTactorPracticeButton";
-            this.PulseTactorPracticeButton.Size = new System.Drawing.Size(89, 29);
+            this.PulseTactorPracticeButton.Size = new System.Drawing.Size(109, 29);
             this.PulseTactorPracticeButton.TabIndex = 45;
             this.PulseTactorPracticeButton.Text = "Pulse Tactor";
             this.PulseTactorPracticeButton.UseVisualStyleBackColor = true;
@@ -606,42 +722,49 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(446, 29);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(0, 17);
+            this.label17.Size = new System.Drawing.Size(0, 20);
             this.label17.TabIndex = 47;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(18, 14);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(759, 153);
+            this.label3.Size = new System.Drawing.Size(845, 140);
             this.label3.TabIndex = 0;
             this.label3.Text = resources.GetString("label3.Text");
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // TenPointMatchingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(947, 593);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(902, 618);
+            this.Controls.Add(this.PrimaryTabControl);
+            this.MinimumSize = new System.Drawing.Size(200, 300);
             this.Name = "TenPointMatchingForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MultiModalMatchingForm_FormClosed);
-            this.MatchingTab.ResumeLayout(false);
-            this.MatchingTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            this.Resize += new System.EventHandler(this.TenPointMatchingForm_Resize);
             this.ConfigureTab.ResumeLayout(false);
             this.ConfigureTab.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.PrimaryTabControl.ResumeLayout(false);
+            this.MatchingTab.ResumeLayout(false);
+            this.MatchingTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ReferenceImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VariableImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.matchingTrackBar)).EndInit();
             this.InstructionsTab.ResumeLayout(false);
             this.InstructionsTab.PerformLayout();
             this.PracticePanel.ResumeLayout(false);
             this.PracticePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.practiceTrackbar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PracticeImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
@@ -650,28 +773,13 @@
 
         #endregion
 
-        private System.Windows.Forms.TabPage MatchingTab;
-        private System.Windows.Forms.Button NextButton;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.Button PulseTactorButton;
         private System.Windows.Forms.TabPage ConfigureTab;
         private System.Windows.Forms.Label ComPortLabel;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RichTextBox Console;
-        private System.Windows.Forms.TextBox FileName;
         private System.Windows.Forms.ComboBox ComPortComboBox;
         private System.Windows.Forms.Button DiscoverButton;
         private System.Windows.Forms.Button StartButton;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.Button EnterButton;
-        private System.Windows.Forms.Label InstructionLabel;
-        private System.Windows.Forms.Label FinishedLabel;
-        private System.Windows.Forms.Label CountLabel;
+        private System.Windows.Forms.TabControl PrimaryTabControl;
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.RadioButton connectradio;
         private System.Windows.Forms.RadioButton discoverradio;
@@ -680,25 +788,51 @@
         private System.Windows.Forms.Label NameLabel;
         private System.Windows.Forms.TabPage InstructionsTab;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label FrequencyLabel;
-        private System.Windows.Forms.Label GainLabel;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox TrackbarPrecision;
         private System.Windows.Forms.Panel PracticePanel;
         private System.Windows.Forms.Button LetsGetStartedButton;
-        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.TrackBar practiceTrackbar;
         private System.Windows.Forms.RadioButton TactorModePracticeRadio;
         private System.Windows.Forms.RadioButton ColorModePracticeRadio;
         private System.Windows.Forms.PictureBox PracticeImage;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Button PulseTactorPracticeButton;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Button PlaySoundButton;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Button PlaySoundPracticeButton;
         private System.Windows.Forms.RadioButton SoundModePracticeRadio;
         private System.Windows.Forms.Label practiceLabel;
+        private System.Windows.Forms.TabPage MatchingTab;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button playReferenceButton;
+        private System.Windows.Forms.PictureBox ReferenceImage;
+        private System.Windows.Forms.Label CountLabel;
+        private System.Windows.Forms.Button NextButton;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox VariableImage;
+        private System.Windows.Forms.TrackBar matchingTrackBar;
+        private System.Windows.Forms.Button playVariableButton;
+        private System.Windows.Forms.Label FinishedLabel;
+        private System.Windows.Forms.Label variableLabel1;
+        private System.Windows.Forms.Label referenceLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button GoBackButton;
+        private System.Windows.Forms.Button browseOutput;
+        private System.Windows.Forms.TextBox outputFolder;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox outputFile;
+        private System.Windows.Forms.Button browseInput;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox FileName;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button loadFileButton;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RadioButton volumeButton;
+        private System.Windows.Forms.RadioButton frequencyButton;
 
     }
 }
