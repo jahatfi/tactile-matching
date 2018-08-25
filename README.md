@@ -7,4 +7,5 @@ C# project written in Visual Studio Pro 2010 for use by Dr Sara Riggs at Clemson
  * 
  * Tactile-matching can not be copied and/or distributed without the express
  * permission of James Hatfield or Dr Riggs
+ 
  *******************************************************/
